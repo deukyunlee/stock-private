@@ -18,16 +18,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// const db = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "111111",
-//   database: "capstone",
-//   port: "3306",
-//   multipleStatements: true,
-//   // dateStrings: "date",
-//   //socketPath: socket_path,
-// });
+const db = mysql.createConnection({
+  host: "teststock.cafe24app.com	",
+  user: "dufqkd1004",
+  password: "capstone!!",
+  database: "dufqkd1004",
+  port: "3306",
+  multipleStatements: true,
+  // dateStrings: "date",
+  //socketPath: socket_path,
+});
 // db.connect(function (error) {
 //   if (error) {
 //     console.log(error);
@@ -36,7 +36,11 @@ app.use(express.static(path.join(__dirname, "public")));
 //   }
 // });
 // module.exports = db;
-
+app.use("/test2", (req, res) => {
+  db.query("select * from test", (err, rows, fields) => {
+    res.json(rows);
+  });
+});
 app.use("/", indexRouter);
 // app.use("/users", usersRouter);
 // app.use("/test", testRouter);
