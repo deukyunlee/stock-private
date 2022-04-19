@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const db = mysql.createConnection({
-  host: "teststock.cafe24app.com	",
+  host: "teststock.cafe24app.com",
   user: "dufqkd1004",
   password: "capstone!!",
   database: "dufqkd1004",
