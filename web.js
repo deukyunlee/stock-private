@@ -1,22 +1,15 @@
 var createError = require("http-errors");
+const mysql = require("mysql");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var testRouter = require("./routes/test");
+
 var app = express();
-const mysql = require("mysql");
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
 
 const db = mysql.createConnection({
   host: "teststock.cafe24app.com",
@@ -28,6 +21,7 @@ const db = mysql.createConnection({
   // dateStrings: "date",
   //socketPath: socket_path,
 });
+
 // db.connect(function (error) {
 //   if (error) {
 //     console.log(error);
@@ -36,11 +30,23 @@ const db = mysql.createConnection({
 //   }
 // });
 module.exports = db;
+
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/test2", (req, res) => {
-  db.query("select * from test", (err, rows, fields) => {
+  const sql = `select * from daily where symbol = 'aapl';`;
+  db.query(sql, (err, rows, fields) => {
     res.json(rows);
   });
 });
+
+var indexRouter = require("./routes/index");
+var usersRouter = require("./routes/users");
+var testRouter = require("./routes/test");
 app.use("/", indexRouter);
 // app.use("/users", usersRouter);
 app.use("/test", testRouter);
@@ -61,5 +67,4 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(process.env.PORT || 8001);
-
 module.exports = app;
