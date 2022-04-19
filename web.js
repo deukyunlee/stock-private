@@ -35,7 +35,7 @@ const db = mysql.createConnection({
 //     console.log("Connected!:)");
 //   }
 // });
-// module.exports = db;
+module.exports = db;
 app.use("/test2", (req, res) => {
   db.query("select * from test", (err, rows, fields) => {
     res.json(rows);
