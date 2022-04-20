@@ -70,16 +70,31 @@ module.exports.stock_intraday_daily_get = (req, res, next) => {
 module.exports.stock_intraday_weekly_get = (req, res, next) => {
   const symbol = req.params.symbol;
   const interval = 4;
-  const sql1 = `SELECT distinct date(datetime) as date from intraday where symbol = ? order by datetime desc limit 7`;
+  const sql1 = `SELECT distinct date from daily where symbol = ? order by date desc limit 7`;
   db.query(sql1, symbol, function (err, rows, fields) {
-    const start_date = rows[rows.length].date;
-    const end_date = rows[0].date;
+    if (err) console.log(err);
+    console.log(rows.length);
+    const start_date = rows[rows.length - 1].date;
     console.log(start_date);
+    var _startdate = new Date(start_date);
+    var _startyear = _startdate.getFullYear();
+    var _startmonth = _startdate.getMonth();
+    var _startdate = _startdate.getDate();
+    const start = _startyear + "-" + _startdate + "-" + _startmonth;
+    const end_date = rows[0].date;
     console.log(end_date);
-    const sql2 = `select symbol, datetime, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "${symbol}" and datetime between "${start_date}" and "${end_date}" group by date(datetime),floor (hour(datetime)/${interval}) order by datetime;`;
+    var _enddate = new Date(end_date);
+    var _endyear = _enddate.getFullYear();
+    var _endmonth = _enddate.getMonth();
+    var _enddate = _enddate.getDate();
+    const end = _endyear + "-" + _startdate + "-" + _enddate;
+    console.log(start);
+    console.log(end);
+    const sql2 = `select symbol, datetime, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "${symbol}" and date(datetime) between "${start}" and "${end}" group by date(datetime),floor (hour(datetime)/${interval}) order by datetime;`;
     // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
     //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
     db.query(sql2, function (err, rows, fields) {
+      if (err) console.log(err);
       res.json(rows);
     });
   });
@@ -127,6 +142,7 @@ module.exports.stock_daily_yearly_get = (req, res, next) => {
     // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
     //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
     db.query(sql2, function (err, rows, fields) {
+      if (err) console.log(err);
       res.json(rows);
     });
   });
