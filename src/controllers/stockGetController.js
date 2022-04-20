@@ -133,7 +133,9 @@ module.exports.stock_daily_yearly_get = (req, res, next) => {
 };
 
 module.exports.stock_company_fully_get = (req, res, next) => {
-  const sql = `SELECT rank() over (order by cap DESC) as rank, symbol, name_en, name_kr,img from company_info natural join daily`;
+  // const sql = `SELECT rank() over (order by cap DESC) as rank, symbol, name_en, name_kr,img from company_info natural join daily`;
+
+  const sql = `SELECT symbol, name_en, name_kr,img from company_info`;
   db.query(sql, function (err, rows, fields) {
     res.json(rows);
   });
