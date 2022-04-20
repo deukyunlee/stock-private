@@ -75,22 +75,22 @@ module.exports.stock_intraday_weekly_get = (req, res, next) => {
     if (err) console.log(err);
     console.log(rows.length);
     const start_date = rows[rows.length - 1].date;
-    console.log(start_date);
-    var _startdate = new Date(start_date);
-    var _startyear = _startdate.getFullYear();
-    var _startmonth = _startdate.getMonth();
-    var _startdate = _startdate.getDate();
-    const start = _startyear + "-" + _startdate + "-" + _startmonth;
+    // console.log(start_date);
+    // var _startdate = new Date(start_date);
+    // var _startyear = _startdate.getFullYear();
+    // var _startmonth = _startdate.getMonth();
+    // var _startdate = _startdate.getDate();
+    // const start = _startyear + "-" + _startdate + "-" + _startmonth;
     const end_date = rows[0].date;
-    console.log(end_date);
-    var _enddate = new Date(end_date);
-    var _endyear = _enddate.getFullYear();
-    var _endmonth = _enddate.getMonth();
-    var _enddate = _enddate.getDate();
-    const end = _endyear + "-" + _startdate + "-" + _enddate;
-    console.log(start);
-    console.log(end);
-    const sql2 = `select symbol, datetime, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "${symbol}" and date(datetime) between "${start}" and "${end}" group by date(datetime),floor (hour(datetime)/${interval}) order by datetime;`;
+    // console.log(end_date);
+    // var _enddate = new Date(end_date);
+    // var _endyear = _enddate.getFullYear();
+    // var _endmonth = _enddate.getMonth();
+    // var _enddate = _enddate.getDate();
+    // const end = _endyear + "-" + _startdate + "-" + _enddate;
+    // console.log(start);
+    // console.log(end);
+    const sql2 = `select symbol, datetime, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "${symbol}" and date(datetime) between "${start_date}" and "${end_date}" group by date(datetime),floor (hour(datetime)/${interval}) order by datetime;`;
     // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
     //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
     db.query(sql2, function (err, rows, fields) {
@@ -118,11 +118,25 @@ module.exports.stock_daily_monthly_3_get = (req, res, next) => {
     const start_date = rows[rows.length - 1].date;
     const end_date = rows[0].date;
     console.log(start_date);
+    const st_year = start_date.getFullYear();
+    const st_month = start_date.getMonth();
+    const st_date = start_date.getDate();
+    const start = st_year + "-" + (st_month + 1) + "-" + st_date;
+
+    console.log(start);
     console.log(end_date);
-    const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start_date}" and "${end_date}" group by floor (date/${interval}) order by date asc;`;
+
+    const en_year = end_date.getFullYear();
+    const en_month = end_date.getMonth();
+    const en_date = end_date.getDate();
+    const end = en_year + "-" + (en_month + 1) + "-" + en_date;
+    console.log(end);
+    const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
+    // const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start_date}" and "${end_date}" group by floor (date/${interval}) order by date;`;
     // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
     //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
     db.query(sql2, function (err, rows, fields) {
+      if (err) console.log(err);
       res.json(rows);
     });
   });
@@ -137,8 +151,21 @@ module.exports.stock_daily_yearly_get = (req, res, next) => {
     const start_date = rows[rows.length - 1].date;
     const end_date = rows[0].date;
     console.log(start_date);
+    const st_year = start_date.getFullYear();
+    const st_month = start_date.getMonth();
+    const st_date = start_date.getDate();
+    const start = st_year + "-" + (st_month + 1) + "-" + st_date;
+
+    console.log(start);
     console.log(end_date);
-    const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start_date}" and "${end_date}" group by floor (date/${interval}) order by date asc;`;
+
+    const en_year = end_date.getFullYear();
+    const en_month = end_date.getMonth();
+    const en_date = end_date.getDate();
+    const end = en_year + "-" + (en_month + 1) + "-" + en_date;
+    console.log(end);
+    const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
+    // const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start_date}" and "${end_date}" group by floor (date/${interval}) order by date;`;
     // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
     //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
     db.query(sql2, function (err, rows, fields) {
