@@ -163,7 +163,7 @@ module.exports.stock_daily_yearly_get = (req, res, next) => {
     const en_date = end_date.getDate();
     const end = en_year + "-" + (en_month + 1) + "-" + en_date;
     console.log(end);
-    const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
+    const sql2 = `select symbol, DATE_FORMAT(date,%y-%m-%d), open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
     // const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start_date}" and "${end_date}" group by floor (date/${interval}) order by date;`;
     // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
     //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
