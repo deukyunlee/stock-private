@@ -1,7 +1,7 @@
 const db = require("../../web.js");
 const axios = require("axios");
 const delayFunc = require("../funcs/delayFuncs");
-const API_KEY = process.env.ALPHAVANTAGEAPI;
+const API_KEY = "ZO8S591P8HTYI8LV";
 
 module.exports.insert_daily_data = async function getDaily() {
   console.log("insert");
@@ -56,6 +56,7 @@ module.exports.insert_daily_data = async function getDaily() {
           db.query(sql, async function (err, rows, fields) {
             for (var i in rows) {
               let symbol = rows[i].symbol;
+              console.log(symbol);
               await delayFunc.sleep(12050);
               count = rows.length - id;
               id += 1;
@@ -93,7 +94,12 @@ module.exports.insert_daily_data = async function getDaily() {
                 console.log(
                   `${symbol} inserted into database : ${count} symbols left`
                 );
-
+                // let sqlShareout = `select shareout from company_info`;
+                // let sharArr = new Array();
+                // db.query(sqlShareout, (err, rows, fields) => {
+                //   sharArr = rows;
+                // });
+                // console.log(sharArr);
                 keys.forEach(function (key, index) {
                   const row = content[key];
                   const date = keys[index];
@@ -104,12 +110,14 @@ module.exports.insert_daily_data = async function getDaily() {
                   const volume = parseInt(row["5. volume"]);
                   const array = [symbol, date, open, high, low, close, volume];
                   db.query(sql, [array], function (err, rows, fields) {
+                    // const sql = `update daily set cap = shareout * close where symbol = ${symbol} and date = ${date}`;
+                    // db.query(sql, (err, rows, fields) => {});
                     if (err) console.log(err);
                   });
                 });
 
-                let sql2 = `UPDATE company_info SET updatedAt_daily='${max}' where symbol = ?`;
-                db.query(sql2, symbol, function (err, rows, fields) {
+                let sql2 = `UPDATE company_info SET updatedAt_daily='${max}' where symbol = "${symbol}"`;
+                db.query(sql2, function (err, rows, fields) {
                   if (err) console.log(err);
                   let sql3 = `select date, (close - lag(close, 1) over (order by date)) as value, ((close - lag(close, 1) over (order by date))/ lag(close, 1) over (order by date)*100) as percent from daily where symbol = ?;`;
                   db.query(sql3, symbol, function (err, rows, fields) {

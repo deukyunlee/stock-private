@@ -8,3 +8,14 @@ multipleStatements: true,
 // dateStrings: "date",
 //socketPath: socket_path,
 });
+
+const db = mysql.createConnection({
+host: "localhost",
+user: "root",
+password: "111111",
+database: "capstone",
+port: "3306",
+multipleStatements: true,
+// dateStrings: "date",
+//socketPath: socket_path,
+});
