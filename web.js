@@ -17,6 +17,7 @@ const db = mysql.createConnection({
   password: "capstone!!",
   database: "dufqkd1004",
   port: "3306",
+
   multipleStatements: true,
   // dateStrings: "date",
   //socketPath: socket_path,
