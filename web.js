@@ -12,15 +12,16 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 const db = mysql.createConnection({
-  host: "teststock.cafe24app.com",
-  user: "dufqkd1004",
-  password: "capstone!!",
-  database: "dufqkd1004",
+  host: "localhost",
+  user: "root",
+  password: "111111",
+  database: "capstone",
   port: "3306",
   multipleStatements: true,
   // dateStrings: "date",
   //socketPath: socket_path,
 });
+
 // db.connect(function (error) {
 //   if (error) {
 //     console.log(error);
