@@ -1,4 +1,4 @@
-const db = require("../web");
+const db = require("../../web");
 const router = require("express").Router();
 router.get("/", (req, res, next) => {
   const sql = `SELECT * from daily`;

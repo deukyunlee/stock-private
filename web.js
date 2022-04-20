@@ -44,12 +44,17 @@ app.use("/test2", (req, res) => {
   });
 });
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-var testRouter = require("./routes/test");
+var indexRouter = require("./src/routes/index");
+var usersRouter = require("./src/routes/users");
+var testRouter = require("./src/routes/test");
+const stock_get = require("./src/routes/stockGetRouter");
+
 app.use("/", indexRouter);
 // app.use("/users", usersRouter);
 app.use("/test", testRouter);
+
+app.use("/stock", stock_get);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
