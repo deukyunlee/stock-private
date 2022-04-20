@@ -54,7 +54,7 @@ router.get(
 // for test
 router.post("/daily/insert", controller3.insert_daily_data);
 router.post("/intraday/insert", controller3.insert_intraday_data);
-router.get("/daily", controller2.insert_company_cap);
+router.post("/daily", controller2.insert_company_cap);
 
 module.exports = router;
 
