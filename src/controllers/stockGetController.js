@@ -190,3 +190,90 @@ module.exports.stock_company_specific_get = (req, res, next) => {
     res.json(rows);
   });
 };
+
+module.exports.stock_cap_en_recent_fully_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const sql = `select d.symbol as symbol,c.name_en as name,d.cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc;`;
+  db.query(sql, symbol, function (err, rows, fields) {
+    res.json(rows);
+  });
+};
+
+module.exports.stock_cap_en_recent_top100_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const sql = `select d.symbol as symbol,c.name_en as name,d.cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc limit 100;`;
+  db.query(sql, symbol, function (err, rows, fields) {
+    res.json(rows);
+  });
+};
+
+module.exports.stock_cap_kr_recent_fully_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const sql = `select d.symbol as symbol,c.name_kr as name,d.cap*1269 as cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc;`;
+  db.query(sql, symbol, function (err, rows, fields) {
+    res.json(rows);
+  });
+};
+module.exports.stock_cap_kr_recent_top100_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const sql = `select d.symbol as symbol,c.name_kr as name,d.cap*1269 as cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc limit 100;`;
+  db.query(sql, symbol, function (err, rows, fields) {
+    res.json(rows);
+  });
+};
+
+module.exports.stock_fluctation_en_recent_fully_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const sql = `select d.change_percent as change_percent,d.change_value as change_value,d.symbol as symbol,c.name_en as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc;`;
+  db.query(sql, symbol, function (err, rows, fields) {
+    res.json(rows);
+  });
+};
+
+module.exports.stock_fluctation_en_recent_top100_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const sql = `select d.change_percent as change_percent,d.change_value as change_value,d.symbol as symbol,c.name_en as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc limit 100;`;
+  db.query(sql, symbol, function (err, rows, fields) {
+    res.json(rows);
+  });
+};
+
+module.exports.stock_fluctation_kr_recent_fully_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const sql = `select d.change_percent as change_percent,d.change_value*1269 as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc;`;
+  db.query(sql, symbol, function (err, rows, fields) {
+    res.json(rows);
+  });
+};
+
+module.exports.stock_fluctation_kr_recent_top100_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const sql = `select d.change_percent as change_percent,d.change_value*1269 as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc limit 100;`;
+  db.query(sql, symbol, function (err, rows, fields) {
+    res.json(rows);
+  });
+};
+
+// 시가총액 전체
+// select d.symbol as symbol,c.name_en as name,d.cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc;
+
+// 시가총액 TOP100
+// select d.symbol as symbol,c.name_en as name,d.cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc limit 100;
+
+// 시가총액 전체 (한글 ver) 5/6환율 1269원/$ 기준
+// select d.symbol as symbol,c.name_kr as name,d.cap*1269 as cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc;
+
+// 시가총액 TOP100 (한글 ver) 5/6환율 1269원/$ 기준
+// select d.symbol as symbol,c.name_kr as name,d.cap*1269 as cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc limit 100;
+
+// 등락율 전체
+// select d.change_percent as change_percent,d.change_value as change_value,d.symbol as symbol,c.name_en as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc;
+
+// 등락율 top 100
+// select d.change_percent as change_percent,d.change_value as change_value,d.symbol as symbol,c.name_en as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc limit 100;
+
+// 등락율 전체 (한글 ver) 5/6환율 1269/$ 기준
+// select d.change_percent as change_percent,d.change_value*1269 as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc;
+
+// 등락율 TOP100 (한글 ver) 5/6환율 1269/$ 기준
+// select d.change_percent as change_percent,d.change_value*1269 as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc limit 100;

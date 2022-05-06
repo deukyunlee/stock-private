@@ -51,6 +51,29 @@ router.get(
   "/daily/specific/for-yearly/:symbol",
   controller.stock_daily_yearly_get
 );
+
+router.get("/en/cap/full-data/", controller.stock_cap_en_recent_fully_get);
+router.get("/en/cap/top100/", controller.stock_cap_en_recent_top100_get);
+router.get("/kr/cap/full-data/", controller.stock_cap_kr_recent_fully_get);
+router.get("/kr/cap/top100/", controller.stock_cap_kr_recent_top100_get);
+
+router.get(
+  "/en/change/full-data/",
+  controller.stock_fluctation_en_recent_fully_get
+);
+router.get(
+  "/en/change/top100/",
+  controller.stock_fluctation_en_recent_top100_get
+);
+router.get(
+  "/kr/change/full-data/",
+  controller.stock_fluctation_kr_recent_fully_get
+);
+router.get(
+  "/kr/change/top100/",
+  controller.stock_fluctation_kr_recent_top100_get
+);
+
 // for test
 router.post("/daily/insert", controller3.insert_daily_data);
 router.post("/intraday/insert", controller3.insert_intraday_data);
