@@ -18,12 +18,14 @@ const swaggerSpec = swaggerJSDoc({
       title: "stockKing API 명세",
       version: "1.0",
     },
-    servers: [
-      {
-        // url: "http://localhost:8001",
-        url: "http://teststock.cafe24app.com",
-      },
-    ],
+    host: "http://teststock.cafe24app.com",
+    basePath: "/",
+    // servers: [
+    //   {
+    //     // url: "http://localhost:8001",
+    //     url: "http://teststock.cafe24app.com",
+    //   },
+    // ],
   },
   apis: ["./api-doc/**/*.yaml"],
 });
