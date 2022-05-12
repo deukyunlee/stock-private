@@ -77,9 +77,9 @@ app.use("/test2", (req, res) => {
   });
 });
 
-app.use("/", (req, res) => {
-  res.json(__dirname);
-});
+// app.use("/", (req, res) => {
+//   res.json(__dirname);
+// });
 
 const stock_get = require("./src/routes/stockGetRouter");
 const cap_get = require("./src/routes/capGetRouter");
