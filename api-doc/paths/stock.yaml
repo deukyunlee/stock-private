@@ -17,20 +17,23 @@ paths:
             example:
               param1: "parameter1"
               param2: "parameter2"
+
   /stock/intraday/specific/for-weekly/{symbol}:
     get:
       summary: symbol에 해당하는 일주일치 데이터 반환(4 hrs interval)
       tags:
         - "stock"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SampleReq"
-            example:
-              param1: "parameter1"
-              param2: "parameter2"
+
+      parameters:
+        - name: symbol
+          in: "path"
+          description: "조회할 심볼"
+          required: true
+          type: "string"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SampleReq"
 
   /stock/intraday/specific/for-monthly/{symbol}:
     get:
