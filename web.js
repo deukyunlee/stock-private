@@ -15,13 +15,13 @@ const swaggerSpec = swaggerJSDoc({
   swaggerDefinition: {
     openapi: "3.0.2",
     info: {
-      title: "swagger-example API 문서",
+      title: "stockKing API 명세",
       version: "1.0",
     },
     servers: [
       {
         // url: "http://localhost:8001",
-        url: "http://teststock.cafe24app.com:8001",
+        url: "http://teststock.cafe24app.com",
       },
     ],
   },
