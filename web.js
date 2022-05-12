@@ -28,7 +28,9 @@ const swaggerSpec = swaggerJSDoc({
     ],
   },
   // apis: ["./api-doc/**/*.yaml"],
-  apis: ["/home/hosting_users/dufqkd1004/apps/teststock/api-doc/**/*.yaml"],
+  apis: [
+    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/api-doc/**/*.yaml",
+  ],
 });
 
 const db = mysql.createConnection({
