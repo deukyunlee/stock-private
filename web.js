@@ -27,7 +27,8 @@ const swaggerSpec = swaggerJSDoc({
       },
     ],
   },
-  apis: ["./api-doc/**/*.yaml"],
+  // apis: ["./api-doc/**/*.yaml"],
+  apis: ["/home/hosting_users/dufqkd1004/apps/teststock/api-doc/**/*.yaml"],
 });
 
 const db = mysql.createConnection({
@@ -87,10 +88,10 @@ app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use(function (req, res, next) {
   next(createError(404));
 });
-app.use("/current", (res) => {
-  res.json(__dirname);
-});
-
+// app.use("/", (req, res) => {
+//   res.json("hi");
+// });
+console.log(__dirname);
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
