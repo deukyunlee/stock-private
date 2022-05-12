@@ -8,90 +8,87 @@ paths:
       summary: symbol에 해당하는 하루치 데이터 반환(5 mins interval)
       tags:
         - "stock"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SampleReq"
-            example:
-              param1: "parameter1"
-              param2: "parameter2"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"
 
   /stock/intraday/specific/for-weekly/{symbol}:
     get:
       summary: symbol에 해당하는 일주일치 데이터 반환(4 hrs interval)
       tags:
         - "stock"
-
       parameters:
-        - name: symbol
+        - name: "symbol"
           in: "path"
-          description: "조회할 심볼"
           required: true
           type: "string"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SampleReq"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation2"
+          # schema:
+          #   items:
+          #     $ref: "#/components/schemas/changeReq"
 
-  /stock/intraday/specific/for-monthly/{symbol}:
+  /stock/daily/specific/for-monthly/{symbol}:
     get:
       summary: symbol에 해당하는 한달치 데이터 반환(1 day interval)
       tags:
         - "stock"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SampleReq"
-            example:
-              param1: "parameter1"
-              param2: "parameter2"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"
 
-  /stock/intraday/specific/for-3monthly/{symbol}:
+  /stock/daily/specific/for-3monthly/{symbol}:
     get:
       summary: symbol에 해당하는 세달치 데이터 반환(3 days interval)
       tags:
         - "stock"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SampleReq"
-            example:
-              param1: "parameter1"
-              param2: "parameter2"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"
 
-  /stock/intraday/specific/for-yearly/{symbol}:
+  /stock/daily/specific/for-yearly/{symbol}:
     get:
       summary: symbol에 해당하는 일년치 데이터 반환(14 days interval)
       tags:
         - "stock"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SampleReq"
-            example:
-              param1: "parameter1"
-              param2: "parameter2"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
       responses:
-        201:
-          description: Ok
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/SampleRes"
-              example:
-                anyString: "스트링"
-                anyNumber: 100000.001
-        400:
-          description: error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"

@@ -8,7 +8,6 @@ paths:
       summary: 등락율 기준으로 내림차순 정렬된 500개 종목에 대한 데이터 반환
       tags:
         - "change"
-
       responses:
         "200":
           description: "successful operation"

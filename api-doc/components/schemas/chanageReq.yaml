@@ -1,4 +1,4 @@
 components:
   schemas:
-    changeReq:
-      type: object
+#     changeReq:
+#       type: object
