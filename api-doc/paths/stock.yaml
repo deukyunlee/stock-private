@@ -1,0 +1,94 @@
+tags:
+  - name: "stock"
+    description: "차트를 그리기 위한 주가 데이터를 제공하는 API"
+
+paths:
+  /stock/intraday/specific/for-daily/{symbol}:
+    get:
+      summary: symbol에 해당하는 하루치 데이터 반환(5 mins interval)
+      tags:
+        - "stock"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SampleReq"
+            example:
+              param1: "parameter1"
+              param2: "parameter2"
+  /stock/intraday/specific/for-weekly/{symbol}:
+    get:
+      summary: symbol에 해당하는 일주일치 데이터 반환(4 hrs interval)
+      tags:
+        - "stock"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SampleReq"
+            example:
+              param1: "parameter1"
+              param2: "parameter2"
+
+  /stock/intraday/specific/for-monthly/{symbol}:
+    get:
+      summary: symbol에 해당하는 한달치 데이터 반환(1 day interval)
+      tags:
+        - "stock"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SampleReq"
+            example:
+              param1: "parameter1"
+              param2: "parameter2"
+
+  /stock/intraday/specific/for-3monthly/{symbol}:
+    get:
+      summary: symbol에 해당하는 세달치 데이터 반환(3 days interval)
+      tags:
+        - "stock"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SampleReq"
+            example:
+              param1: "parameter1"
+              param2: "parameter2"
+
+  /stock/intraday/specific/for-yearly/{symbol}:
+    get:
+      summary: symbol에 해당하는 일년치 데이터 반환(14 days interval)
+      tags:
+        - "stock"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SampleReq"
+            example:
+              param1: "parameter1"
+              param2: "parameter2"
+      responses:
+        201:
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SampleRes"
+              example:
+                anyString: "스트링"
+                anyNumber: 100000.001
+        400:
+          description: error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
