@@ -1,13 +1,13 @@
 tags:
-  - name: "change"
-    description: "등락율에 관련된 데이터를 제공하는 API"
+  - name: "cap"
+    description: "시가총액에 관련된 데이터를 제공하는 API"
 
 paths:
   /cap/en/full-data:
     get:
       summary: 시가총액을 기준으로 정렬된 500개 종목에 대한 데이터 반환(단위-달러)
       tags:
-        - "change"
+        - "cap"
       requestBody:
         required: true
         content:
@@ -22,7 +22,7 @@ paths:
     get:
       summary: 시가총액을 기준으로 정렬된 500개 종목에 대한 데이터 반환(단위-원화)
       tags:
-        - "change"
+        - "cap"
       requestBody:
         required: true
         content:
@@ -37,7 +37,7 @@ paths:
     get:
       summary: 시가총액을 기준으로 정렬된 TOP100 종목에 대한 데이터 반환(단위-달러)
       tags:
-        - "change"
+        - "cap"
       requestBody:
         required: true
         content:
@@ -52,7 +52,7 @@ paths:
     get:
       summary: 시가총액을 기준으로 정렬된 TOP100 종목에 대한 데이터 반환(단위-원화)
       tags:
-        - "change"
+        - "cap"
       requestBody:
         required: true
         content:
