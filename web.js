@@ -4,12 +4,28 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const swaggerUI = require("swagger-ui-express");
+const swaggerJSDoc = require("swagger-jsdoc");
 var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+const swaggerSpec = swaggerJSDoc({
+  swaggerDefinition: {
+    openapi: "3.0.2",
+    info: {
+      title: "swagger-example API 문서",
+      version: "1.0",
+    },
+    servers: [
+      {
+        url: "http://localhost:8080",
+      },
+    ],
+  },
+  apis: ["./api-doc/**/*.yaml"],
+});
 
 const db = mysql.createConnection({
   host: "teststock.cafe24app.com",
@@ -55,17 +71,15 @@ app.use("/test2", (req, res) => {
   });
 });
 
-var indexRouter = require("./src/routes/index");
-var usersRouter = require("./src/routes/users");
-var testRouter = require("./src/routes/test");
 const stock_get = require("./src/routes/stockGetRouter");
-
-app.use("/", indexRouter);
-// app.use("/users", usersRouter);
-app.use("/test", testRouter);
+const cap_get = require("./src/routes/capGetRouter");
+const change_get = require("./src/routes/fluctationGetRouter");
 
 app.use("/stock", stock_get);
+app.use("/cap", cap_get);
+app.use("/change", change_get);
 
+app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

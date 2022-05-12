@@ -52,27 +52,6 @@ router.get(
   controller.stock_daily_yearly_get
 );
 
-router.get("/en/cap/full-data/", controller.stock_cap_en_recent_fully_get);
-router.get("/en/cap/top100/", controller.stock_cap_en_recent_top100_get);
-router.get("/kr/cap/full-data/", controller.stock_cap_kr_recent_fully_get);
-router.get("/kr/cap/top100/", controller.stock_cap_kr_recent_top100_get);
-
-router.get(
-  "/change/full-data/desc",
-  controller.stock_fluctation_desc_recent_fully_get
-);
-router.get(
-  "/change/top100/desc",
-  controller.stock_fluctation_desc_recent_top100_get
-);
-router.get(
-  "/change/full-data/asc",
-  controller.stock_fluctation_asc_recent_fully_get
-);
-router.get(
-  "/change/top100/asc",
-  controller.stock_fluctation_asc_recent_top100_get
-);
 // router.get(
 //   "/kr/change/full-data/",
 //   controller.stock_fluctation_kr_recent_fully_get
