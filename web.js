@@ -87,6 +87,9 @@ app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use(function (req, res, next) {
   next(createError(404));
 });
+app.use("/current", (res) => {
+  res.json(__dirname);
+});
 
 // error handler
 app.use(function (err, req, res, next) {
