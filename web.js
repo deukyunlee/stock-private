@@ -20,7 +20,8 @@ const swaggerSpec = swaggerJSDoc({
     },
     servers: [
       {
-        url: "http://localhost:8001",
+        // url: "http://localhost:8001",
+        url: "http://teststock.cafe24app.com",
       },
     ],
   },
