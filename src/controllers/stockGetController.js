@@ -102,7 +102,11 @@ module.exports.stock_intraday_weekly_get = (req, res, next) => {
 // for monthly - 1 day interval
 module.exports.stock_daily_monthly_get = (req, res, next) => {
   const symbol = req.params.symbol;
-  const sql1 = `select symbol, date, open, high, low, close, volume from daily where symbol = "${symbol}" order by date limit 30;`;
+  // <<<<<<< HEAD
+  //   const sql1 = `select symbol, date, open, high, low, close, volume from daily where symbol = "${symbol}" order by date limit 30;`;
+  // =======
+  const sql1 = `select symbol, DATE_FORMAT(date,'%Y-%m-%d') as date, open, high, low, close, volume from daily where symbol = "${symbol}" order by date limit 30;`;
+  // >>>>>>> 6f861d46dc43318056a099e354f61002b30e5755
   db.query(sql1, symbol, function (err, rows, fields) {
     res.json(rows);
   });
@@ -130,7 +134,7 @@ module.exports.stock_daily_monthly_3_get = (req, res, next) => {
     const en_date = end_date.getDate();
     const end = en_year + "-" + (en_month + 1) + "-" + en_date;
     console.log(end);
-    const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
+    const sql2 = `select symbol, DATE_FORMAT(date,'%Y-%m-%d') as date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
     // const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start_date}" and "${end_date}" group by floor (date/${interval}) order by date;`;
     // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
     //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
@@ -163,7 +167,7 @@ module.exports.stock_daily_yearly_get = (req, res, next) => {
     const en_date = end_date.getDate();
     const end = en_year + "-" + (en_month + 1) + "-" + en_date;
     console.log(end);
-    const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
+    const sql2 = `select symbol, DATE_FORMAT(date,'%Y-%m-%d') as date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
     // const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start_date}" and "${end_date}" group by floor (date/${interval}) order by date;`;
     // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
     //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
@@ -190,3 +194,43 @@ module.exports.stock_company_specific_get = (req, res, next) => {
     res.json(rows);
   });
 };
+
+// module.exports.stock_fluctation_en_recent_fully_get = (req, res, next) => {
+//   const symbol = req.params.symbol;
+//   const sql = `select d.change_percent as change_percent,d.change_value as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc;`;
+//   db.query(sql, symbol, function (err, rows, fields) {
+//     res.json(rows);
+//   });
+// };
+
+// module.exports.stock_fluctation_en_recent_top100_get = (req, res, next) => {
+//   const symbol = req.params.symbol;
+//   const sql = `select d.change_percent as change_percent,d.change_value as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc limit 100;`;
+//   db.query(sql, symbol, function (err, rows, fields) {
+//     res.json(rows);
+//   });
+// };
+
+// 시가총액 전체
+// select d.symbol as symbol,c.name_en as name,d.cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc;
+
+// 시가총액 TOP100
+// select d.symbol as symbol,c.name_en as name,d.cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc limit 100;
+
+// 시가총액 전체 (한글 ver) 5/6환율 1269원/$ 기준
+// select d.symbol as symbol,c.name_kr as name,d.cap*1269 as cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc;
+
+// 시가총액 TOP100 (한글 ver) 5/6환율 1269원/$ 기준
+// select d.symbol as symbol,c.name_kr as name,d.cap*1269 as cap from daily as d inner join company_info as c on d.symbol = c.symbol where d.date = "2022-05-05" and d.cap is not null order by cap desc limit 100;
+
+// 등락율 전체
+// select d.change_percent as change_percent,d.change_value as change_value,d.symbol as symbol,c.name_en as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc;
+
+// 등락율 top 100
+// select d.change_percent as change_percent,d.change_value as change_value,d.symbol as symbol,c.name_en as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc limit 100;
+
+// 등락율 전체 (한글 ver) 5/6환율 1269/$ 기준
+// select d.change_percent as change_percent,d.change_value*1269 as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc;
+
+// 등락율 TOP100 (한글 ver) 5/6환율 1269/$ 기준
+// select d.change_percent as change_percent,d.change_value*1269 as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" order by d.change_percent desc limit 100;

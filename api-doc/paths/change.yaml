@@ -1,0 +1,53 @@
+tags:
+  - name: "change"
+    description: "등락율에 관련된 데이터를 제공하는 API"
+
+paths:
+  /change/full-data/desc:
+    get:
+      summary: 등락율 기준으로 내림차순 정렬된 500개 종목에 대한 데이터 반환
+      tags:
+        - "change"
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+
+  /change/full-data/asc:
+    get:
+      summary: 등락율 기준으로 오름차순 정렬된 500개 종목에 대한 데이터 반환
+      tags:
+        - "change"
+
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+
+  /change/top100/desc:
+    get:
+      summary: 등락율 기준으로 내림차순 정렬된 TOP100 종목에 대한 데이터 반환
+      tags:
+        - "change"
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+
+  /change/top100/asc:
+    get:
+      summary: 등락율 기준으로 오름차순 정렬된 TOP100 종목에 대한 데이터 반환
+      tags:
+        - "change"
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"

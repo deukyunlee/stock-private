@@ -4,12 +4,34 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-
+const swaggerUI = require("swagger-ui-express");
+const swaggerJSDoc = require("swagger-jsdoc");
 var app = express();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+const swaggerSpec = swaggerJSDoc({
+  swaggerDefinition: {
+    openapi: "3.0.2",
+    info: {
+      title: "stockKing API 명세",
+      version: "1.0",
+    },
+    // host: "http://teststock.cafe24app.com",
+    // basePath: "/",
+    servers: [
+      {
+        // url: "http://localhost:8001",
+        url: "http://teststock.cafe24app.com",
+      },
+    ],
+  },
+  // apis: ["./api-doc/**/*.yaml"],
+  apis: [
+    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/api-doc/**/*.yaml",
+  ],
+});
 
 const db = mysql.createConnection({
   host: "teststock.cafe24app.com",
@@ -21,6 +43,17 @@ const db = mysql.createConnection({
   // dateStrings: "date",
   //socketPath: socket_path,
 });
+
+// const db = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "111111",
+//   database: "capstone",
+//   port: "3306",
+//   multipleStatements: true,
+//   // dateStrings: "date",
+//   //socketPath: socket_path,
+// });
 
 // db.connect(function (error) {
 //   if (error) {
@@ -44,22 +77,27 @@ app.use("/test2", (req, res) => {
   });
 });
 
-var indexRouter = require("./src/routes/index");
-var usersRouter = require("./src/routes/users");
-var testRouter = require("./src/routes/test");
-const stock_get = require("./src/routes/stockGetRouter");
+// app.use("/", (req, res) => {
+//   res.json(__dirname);
+// });
 
-app.use("/", indexRouter);
-// app.use("/users", usersRouter);
-app.use("/test", testRouter);
+const stock_get = require("./src/routes/stockGetRouter");
+const cap_get = require("./src/routes/capGetRouter");
+const change_get = require("./src/routes/fluctationGetRouter");
 
 app.use("/stock", stock_get);
+app.use("/cap", cap_get);
+app.use("/change", change_get);
 
+app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
+// app.use("/", (req, res) => {
+//   res.json("hi");
+// });
+console.log(__dirname);
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development

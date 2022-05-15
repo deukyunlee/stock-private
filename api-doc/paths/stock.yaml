@@ -1,0 +1,94 @@
+tags:
+  - name: "stock"
+    description: "차트를 그리기 위한 주가 데이터를 제공하는 API"
+
+paths:
+  /stock/intraday/specific/for-daily/{symbol}:
+    get:
+      summary: symbol에 해당하는 하루치 데이터 반환(5 mins interval)
+      tags:
+        - "stock"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+
+  /stock/intraday/specific/for-weekly/{symbol}:
+    get:
+      summary: symbol에 해당하는 일주일치 데이터 반환(4 hrs interval)
+      tags:
+        - "stock"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation2"
+          # schema:
+          #   items:
+          #     $ref: "#/components/schemas/changeReq"
+
+  /stock/daily/specific/for-monthly/{symbol}:
+    get:
+      summary: symbol에 해당하는 한달치 데이터 반환(1 day interval)
+      tags:
+        - "stock"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+
+  /stock/daily/specific/for-3monthly/{symbol}:
+    get:
+      summary: symbol에 해당하는 세달치 데이터 반환(3 days interval)
+      tags:
+        - "stock"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+
+  /stock/daily/specific/for-yearly/{symbol}:
+    get:
+      summary: symbol에 해당하는 일년치 데이터 반환(14 days interval)
+      tags:
+        - "stock"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"

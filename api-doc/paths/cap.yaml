@@ -1,0 +1,51 @@
+tags:
+  - name: "cap"
+    description: "시가총액에 관련된 데이터를 제공하는 API"
+
+paths:
+  /cap/en/full-data:
+    get:
+      summary: 시가총액을 기준으로 정렬된 500개 종목에 대한 데이터 반환(단위-달러)
+      tags:
+        - "cap"
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+
+  /cap/kr/full-data:
+    get:
+      summary: 시가총액을 기준으로 정렬된 500개 종목에 대한 데이터 반환(단위-원화)
+      tags:
+        - "cap"
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+  /cap/en/top100:
+    get:
+      summary: 시가총액을 기준으로 정렬된 TOP100 종목에 대한 데이터 반환(단위-달러)
+      tags:
+        - "cap"
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"
+
+  /cap/kr/top100:
+    get:
+      summary: 시가총액을 기준으로 정렬된 TOP100 종목에 대한 데이터 반환(단위-원화)
+      tags:
+        - "cap"
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"
