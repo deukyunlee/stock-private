@@ -6,6 +6,7 @@
     "start": "node web"
   },
   "dependencies": {
+    "algoliasearch": "^4.13.0",
     "axios": "^0.26.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",

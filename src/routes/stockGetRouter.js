@@ -3,6 +3,7 @@ const controller = require("../controllers/stockGetController");
 const controller2 = require("../controllers/companyInsertController");
 const controller3 = require("../controllers/stockInsertController");
 
+router.get("/company/image", controller2.insert_img);
 router.get("/company/full-data", controller.stock_company_fully_get);
 
 router.get("/company/specific/:symbol", controller.stock_company_specific_get);
