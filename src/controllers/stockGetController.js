@@ -102,7 +102,11 @@ module.exports.stock_intraday_weekly_get = (req, res, next) => {
 // for monthly - 1 day interval
 module.exports.stock_daily_monthly_get = (req, res, next) => {
   const symbol = req.params.symbol;
+  // <<<<<<< HEAD
+  //   const sql1 = `select symbol, date, open, high, low, close, volume from daily where symbol = "${symbol}" order by date limit 30;`;
+  // =======
   const sql1 = `select symbol, DATE_FORMAT(date,'%Y-%m-%d') as date, open, high, low, close, volume from daily where symbol = "${symbol}" order by date limit 30;`;
+  // >>>>>>> 6f861d46dc43318056a099e354f61002b30e5755
   db.query(sql1, symbol, function (err, rows, fields) {
     res.json(rows);
   });
