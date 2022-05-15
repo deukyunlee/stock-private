@@ -1,0 +1,27 @@
+tags:
+  - name: "search"
+    description: "검색을 위한 데이터를 제공하는 API"
+
+paths:
+  /search/{method}/{keyword}:
+    get:
+      summary: symbol에 해당하는 하루치 데이터 반환(5 mins interval)
+      tags:
+        - "search"
+      parameters:
+        - name: "method"
+          in: "path"
+          required: true
+          type: "string"
+          example: "en"
+        - name: "keyword"
+          in: "path"
+          required: true
+          type: "string"
+          example: "a"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"

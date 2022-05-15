@@ -8,7 +8,7 @@
 */
 // 반환 => {symbol, name_kr, name_en, objectID, img}
 
-const router = require("express").Router();
+// const router = require("express").Router();
 const algoliasearch = require("algoliasearch");
 // const dotenv = require("dotenv");
 const db = require("../../web.js");
