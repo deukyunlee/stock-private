@@ -291,3 +291,5 @@ module.exports.insert_company_cap = async function getSymbol() {
 //       })
 //   );
 // }
+
+module.exports.insert_img = async function image_insertion() {};
