@@ -5,7 +5,7 @@ tags:
 paths:
   /search/{method}/{keyword}:
     get:
-      summary: symbol에 해당하는 하루치 데이터 반환(5 mins interval)
+      summary: method => en/kr/symbol, keyword => 검색어
       tags:
         - "search"
       parameters:
