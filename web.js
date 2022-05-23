@@ -7,6 +7,7 @@ var logger = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 const app = require("express")();
+const cron = require("node-cron");
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -41,6 +42,12 @@ const db = mysql.createConnection({
   multipleStatements: true,
   // dateStrings: "date",
   //socketPath: socket_path,
+});
+
+cron.schedule("* * * * * *", () => {
+  db.query("insert into test1 values(1)", (err, rows) => {
+    if (err) console.log(err);
+  });
 });
 
 // const db = mysql.createConnection({

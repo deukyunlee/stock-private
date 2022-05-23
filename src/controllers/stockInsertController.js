@@ -13,7 +13,7 @@ module.exports.insert_daily_data = async function getDaily() {
   let id = 0;
   let url = [];
 
-  url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=compact&apikey=${API_KEY}`;
+  url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=full&apikey=${API_KEY}`;
   try {
     resApi = await axios({
       method: "get",
@@ -39,7 +39,7 @@ module.exports.insert_daily_data = async function getDaily() {
       keys.forEach(function (key, index) {
         const row = content[key];
         const date = keys[index];
-        console.log(date);
+        //console.log(date);
         const open = parseFloat(row["1. open"]);
         const high = parseFloat(row["2. high"]);
         const low = parseFloat(row["3. low"]);
