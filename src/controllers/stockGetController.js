@@ -193,7 +193,7 @@ module.exports.stock_company_fully_get = (req, res, next) => {
 
 module.exports.stock_company_specific_get = (req, res, next) => {
   const symbol = req.params.symbol;
-  const sql = `SELECT symbol, name_en, name_kr, desc_en,desc_kr,img,shareout from company_info where symbol = ?`;
+  const sql = `select c.symbol, d.close, d.change_percent, d.change_value, c.name_en, c.name_kr, c.desc_en, c.desc_kr, img, shareout from daily as d, company_info as c where d.symbol = c.symbol and symbol = ?;`;
   db.query(sql, symbol, function (err, rows, fields) {
     res.json(rows);
   });
