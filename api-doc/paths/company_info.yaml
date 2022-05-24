@@ -1,0 +1,22 @@
+tags:
+  - name: "info"
+    description: "회사정보에 관련된 데이터를 제공하는 API"
+
+paths:
+  /stock/company/specific/{symbol}:
+    get:
+      summary: 검색하는 symbol에 대한 회사정보 반환
+      tags:
+        - "info"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          shcema:
+            items:
+              $ref: "#/components/schemas/changeReq"
