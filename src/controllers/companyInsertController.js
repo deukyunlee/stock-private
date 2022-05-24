@@ -161,58 +161,29 @@ module.exports.insert_company_cap = async function getSymbol() {
   // }
 };
 
-module.exports.insert_company_cap = async function getSymbol() {
-  let symbol = "A";
+module.exports.insert_company_info = async function getInfo() {
+  let symbol;
   let resApi;
   let resData;
-  let content;
-  let count;
+  let count = 500;
   let id = 0;
   let url = [];
+  sql = `select symbol from company_info;`;
 
-  url = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
-  try {
-    resApi = await axios({
-      method: "get",
-      url: url,
-    });
-  } catch {
-    console.log("axios failed");
-  }
+  db.query(sql, (err, result) => {
+    Object.keys(result).forEach(async function (key) {
+      symbol = result[key].symbol;
+      console.log(symbol);
+      if (symbol) {
+        url[
+          key
+        ] = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
+      } else console.log("no symbol");
 
-  try {
-    resData = resApi.data;
-  } catch {
-    console.log("no data");
-  }
-
-  content = await resData["SharesOutstanding"];
-  if (content) {
-    console.log(content);
-    const shareout = Number(content);
-    let sql = `Update company_info SET shareout =${shareout} where symbol = "${symbol}"`;
-
-    db.query(sql, function (err, rows, fields) {
-      if (err) console.log(err);
-      // console.log(rows);
-    });
-
-    sql = `select symbol from company_info where shareout is null`;
-    db.query(sql, async function (err, rows, fields) {
-      for (var i in rows) {
-        let symbol = rows[i].symbol;
+      for (var key in url) {
+        console.log(url);
+        /*
         await delayFunc.sleep(12050);
-        count = rows.length - id;
-        id += 1;
-        console.log(symbol);
-
-        if (symbol) {
-          try {
-            url = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
-          } catch {
-            console.log("symbol or url not found");
-          }
-        }
         try {
           resApi = await axios({
             method: "get",
@@ -221,29 +192,39 @@ module.exports.insert_company_cap = async function getSymbol() {
         } catch {
           console.log("axios failed");
         }
+
         try {
           resData = resApi.data;
         } catch {
           console.log("no data");
         }
-        let content = await resData["SharesOutstanding"];
 
-        if (content) {
-          console.log(content);
-          const shareout = Number(content);
-          let sql = `Update company_info SET shareout =${shareout} where symbol = "${symbol}"`;
+        try {
+          let per = await resData["PERatio"];
+          let pbr = await resData["PriceToBookRatio"];
+          let eps = await resData["EPS"];
+          let roe = await resData["ReturnOnEquityTTM"];
 
-          db.query(sql, function (err, rows, fields) {
+          let sql = `insert IGNORE into info(symbol, per,pbr,pes,roe) values (?)`;
+
+          const array = [symbol, per, pbr, eps, roe];
+          db.query(sql, [array], function (err, rows, fields) {
             if (err) console.log(err);
-            console.log(
-              `${symbol} inserted into database : ${count} symbols left`
-            );
           });
+          count -= 1;
+          console.log(
+            symbol + " inserted into database : " + count + " symbols left"
+          );
+        } catch {
+          console.log("sql error");
         }
+        */
       }
     });
-  }
+  });
+  // console.log(url);
 };
+
 // let count = 500;
 // let sql = `select symbol from company_info`;
 // url = [];
