@@ -170,24 +170,24 @@ module.exports.insert_company_info = async function getInfo() {
   let url = [];
   sql = `select symbol from company_info;`;
 
-  db.query(sql, (err, result) => {
+  db.query(sql, (err, result, fields) => {
+    // console.log(rows);
     Object.keys(result).forEach(async function (key) {
       symbol = result[key].symbol;
-      console.log(symbol);
       if (symbol) {
+        // console.log(symbol);
         url[
           key
         ] = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
       } else console.log("no symbol");
 
       for (var key in url) {
-        console.log(url);
-        /*
         await delayFunc.sleep(12050);
+        console.log(url[key]);
         try {
           resApi = await axios({
             method: "get",
-            url: url,
+            url: url[key],
           });
         } catch {
           console.log("axios failed");
@@ -205,7 +205,7 @@ module.exports.insert_company_info = async function getInfo() {
           let eps = await resData["EPS"];
           let roe = await resData["ReturnOnEquityTTM"];
 
-          let sql = `insert IGNORE into info(symbol, per,pbr,pes,roe) values (?)`;
+          let sql = `insert IGNORE into info(symbol, per,pbr,eps,roe) values (?)`;
 
           const array = [symbol, per, pbr, eps, roe];
           db.query(sql, [array], function (err, rows, fields) {
@@ -218,10 +218,64 @@ module.exports.insert_company_info = async function getInfo() {
         } catch {
           console.log("sql error");
         }
-        */
       }
     });
   });
+  // console.log(url);
+  // console.log(key);
+
+  // db.query(sql, (err, result) => {
+  //   Object.keys(result).forEach(async function (key) {
+  //     symbol = result[key].symbol;
+  //     console.log(symbol);
+  //     if (symbol) {
+  //       url[
+  //         key
+  //       ] = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
+  //     } else console.log("no symbol");
+
+  //     for (var key in url) {
+  //       console.log(url);
+  //     }
+  //     /*
+  //       await delayFunc.sleep(12050);
+  //       try {
+  //         resApi = await axios({
+  //           method: "get",
+  //           url: url,
+  //         });
+  //       } catch {
+  //         console.log("axios failed");
+  //       }
+
+  //       try {
+  //         resData = resApi.data;
+  //       } catch {
+  //         console.log("no data");
+  //       }
+
+  //       try {
+  //         let per = await resData["PERatio"];
+  //         let pbr = await resData["PriceToBookRatio"];
+  //         let eps = await resData["EPS"];
+  //         let roe = await resData["ReturnOnEquityTTM"];
+
+  //         let sql = `insert IGNORE into info(symbol, per,pbr,pes,roe) values (?)`;
+
+  //         const array = [symbol, per, pbr, eps, roe];
+  //         db.query(sql, [array], function (err, rows, fields) {
+  //           if (err) console.log(err);
+  //         });
+  //         count -= 1;
+  //         console.log(
+  //           symbol + " inserted into database : " + count + " symbols left"
+  //         );
+  //       } catch {
+  //         console.log("sql error");
+  //       }
+  //       */
+  //   });
+  // });
   // console.log(url);
 };
 
