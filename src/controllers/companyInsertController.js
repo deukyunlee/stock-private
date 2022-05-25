@@ -12,6 +12,7 @@ module.exports.insert_company_cap = async function getSymbol() {
   let content;
   let count;
   let id = 0;
+
   let url = [];
 
   url = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
