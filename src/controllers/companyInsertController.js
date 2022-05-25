@@ -183,8 +183,9 @@ module.exports.insert_company_info = async function getInfo() {
       } else console.log("no symbol");
 
       for (var key in url) {
-        await delayFunc.sleep(12050);
         console.log(url[key]);
+        // await delayFunc.sleep(12050);
+        // console.log(url[key]);
         try {
           resApi = await axios({
             method: "get",
@@ -193,32 +194,29 @@ module.exports.insert_company_info = async function getInfo() {
         } catch {
           console.log("axios failed");
         }
-
-        try {
-          resData = resApi.data;
-        } catch {
-          console.log("no data");
-        }
-
-        try {
-          let per = await resData["PERatio"];
-          let pbr = await resData["PriceToBookRatio"];
-          let eps = await resData["EPS"];
-          let roe = await resData["ReturnOnEquityTTM"];
-
-          let sql = `insert IGNORE into info(symbol, per,pbr,eps,roe) values (?)`;
-
-          const array = [symbol, per, pbr, eps, roe];
-          db.query(sql, [array], function (err, rows, fields) {
-            if (err) console.log(err);
-          });
-          count -= 1;
-          console.log(
-            symbol + " inserted into database : " + count + " symbols left"
-          );
-        } catch {
-          console.log("sql error");
-        }
+        await console.log(resApi);
+        // try {
+        //   resData = resApi.data;
+        // } catch {
+        //   console.log("no data");
+        // }
+        // try {
+        //   let per = await resData["PERatio"];
+        //   let pbr = await resData["PriceToBookRatio"];
+        //   let eps = await resData["EPS"];
+        //   let roe = await resData["ReturnOnEquityTTM"];
+        //   let sql = `insert IGNORE into info(symbol,per,pbr,eps,roe) values (?)`;
+        //   const array = [symbol, per, pbr, eps, roe];
+        //   db.query(sql, [array], function (err, rows, fields) {
+        //     if (err) console.log(err);
+        //   });
+        //   count -= 1;
+        //   console.log(
+        //     symbol + " inserted into database : " + count + " symbols left"
+        //   );
+        // } catch {
+        //   console.log("sql error");
+        // }
       }
     });
   });
