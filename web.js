@@ -7,7 +7,7 @@ var logger = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 const app = require("express")();
-const cron = require("node-cron");
+const cron_scheduler = require("./src/funcs/cron-scheduler");
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -32,6 +32,7 @@ const swaggerSpec = swaggerJSDoc({
     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/api-doc/**/*.yaml",
   ],
 });
+cron_scheduler.update_daily();
 
 const db = mysql.createConnection({
   host: "teststock.cafe24app.com",
