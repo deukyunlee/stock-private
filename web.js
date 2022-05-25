@@ -40,6 +40,13 @@ const db = mysql.createConnection({
   database: "dufqkd1004",
   port: "3306",
   multipleStatements: true,
+  typeCast: function (field, next) {
+    if (field.type == "VAR_STRING") {
+      return field.string();
+    }
+    return next();
+  },
+  multipleStatements: true,
   // dateStrings: "date",
   //socketPath: socket_path,
 });
