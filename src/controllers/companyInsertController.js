@@ -162,17 +162,17 @@ module.exports.insert_company_cap = async function getSymbol() {
   // }
 };
 
-async function insertImg(symbol) {
-  try {
-    const sql = `UPDATE company_info SET img='${imgstr}' WHERE symbol = '${symbol}'`;
-
-    db.query(sql, function (err, rows, fields) {
-      if (err) console.log(err);
-      //console.log(rows);
-    });
-  } catch (error) {
-    console.log(error);
-  }
+async function insertInfo(symbol) {
+  // try {
+  //   const sql = `UPDATE company_info SET img='${imgstr}' WHERE symbol = '${symbol}'`;
+  //   db.query(sql, function (err, rows, fields) {
+  //     if (err) console.log(err);
+  //     //console.log(rows);
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  console.log(symbol);
 }
 
 module.exports.insert_company_info = async function getInfo() {
@@ -683,7 +683,8 @@ module.exports.insert_company_info = async function getInfo() {
   ];
   for (const symbol of symbols) {
     //console.log(symbol + " insert . . . ");
-    delayFunc.sleep(12050);
+    await delayFunc.sleep(12050);
+
     await insertInfo(symbol);
   }
   // sql = `select symbol from company_info;`;
