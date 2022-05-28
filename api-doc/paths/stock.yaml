@@ -92,3 +92,21 @@ paths:
           schema:
             items:
               $ref: "#/components/schemas/changeReq"
+
+  /stock/daily/specific/for-5yearly/{symbol}:
+    get:
+      summary: symbol에 해당하는 5년치 데이터 반환(2 months interval)
+      tags:
+        - "stock"
+      parameters:
+        - name: "symbol"
+          in: "path"
+          required: true
+          type: "string"
+          example: "aapl"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            items:
+              $ref: "#/components/schemas/changeReq"
