@@ -27,26 +27,26 @@ paths:
             items:
               $ref: "#/components/schemas/changeReq"
 
-  /realtime/en/asc:
-    get:
-      summary: 검색횟수를 기준으로 내림차순 정렬된 TOP100 종목에 대한 달러 기준 데이터 반환
-      tags:
-        - "realtime"
-      responses:
-        "200":
-          description: "successful operation"
-          shcema:
-            items:
-              $ref: "#/components/schemas/changeReq"
+  # /realtime/en/asc:
+  #   get:
+  #     summary: 검색횟수를 기준으로 오름차순 정렬된 TOP100 종목에 대한 달러 기준 데이터 반환
+  #     tags:
+  #       - "realtime"
+  #     responses:
+  #       "200":
+  #         description: "successful operation"
+  #         shcema:
+  #           items:
+  #             $ref: "#/components/schemas/changeReq"
 
-  /realtime/kr/asc:
-    get:
-      summary: 검색횟수를 기준으로 내림차순 정렬된 TOP100 종목에 대한 원화 기준 데이터 반환
-      tags:
-        - "realtime"
-      responses:
-        "200":
-          description: "successful operation"
-          shcema:
-            items:
-              $ref: "#/components/schemas/changeReq"
+  # /realtime/kr/asc:
+  #   get:
+  #     summary: 검색횟수를 기준으로 오름차순 정렬된 TOP100 종목에 대한 원화 기준 데이터 반환
+  #     tags:
+  #       - "realtime"
+  #     responses:
+  #       "200":
+  #         description: "successful operation"
+  #         shcema:
+  #           items:
+  #             $ref: "#/components/schemas/changeReq"
