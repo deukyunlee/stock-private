@@ -32,7 +32,6 @@ const swaggerSpec = swaggerJSDoc({
     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/api-doc/**/*.yaml",
   ],
 });
-// cron_scheduler.update_daily();
 
 // const db = mysql.createConnection({
 //   host: "teststock.cafe24app.com",
