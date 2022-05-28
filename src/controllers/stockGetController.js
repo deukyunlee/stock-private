@@ -118,10 +118,12 @@ module.exports.stock_daily_monthly_get = (req, res, next) => {
 module.exports.stock_daily_monthly_3_get = (req, res, next) => {
   const symbol = req.params.symbol;
   const interval = 3;
+  // console.log("this");
   const sql1 = `select date from daily where symbol = ? and date between date_add(now(), interval-3 month) and now() order by date;`;
   db.query(sql1, symbol, function (err, rows, fields) {
-    const start_date = rows[rows.length - 1].date;
-    const end_date = rows[0].date;
+    if (err) console.log(err);
+    const end_date = rows[rows.length - 1].date;
+    const start_date = rows[0].date;
     console.log(start_date);
     const st_year = start_date.getFullYear();
     const st_month = start_date.getMonth();
@@ -153,8 +155,8 @@ module.exports.stock_daily_yearly_get = (req, res, next) => {
   const interval = 14;
   const sql1 = `select date from daily where symbol = ? and date between date_add(now(), interval-1 year) and now() order by date;`;
   db.query(sql1, symbol, function (err, rows, fields) {
-    const start_date = rows[rows.length - 1].date;
-    const end_date = rows[0].date;
+    const end_date = rows[rows.length - 1].date;
+    const start_date = rows[0].date;
     console.log(start_date);
     const st_year = start_date.getFullYear();
     const st_month = start_date.getMonth();
@@ -186,8 +188,8 @@ module.exports.stock_daily_5yearly_get = (req, res, next) => {
   const interval = 60;
   const sql1 = `select date from daily where symbol = ? and date between date_add(now(), interval-5 year) and now() order by date;`;
   db.query(sql1, symbol, function (err, rows, fields) {
-    const start_date = rows[rows.length - 1].date;
-    const end_date = rows[0].date;
+    const end_date = rows[rows.length - 1].date;
+    const start_date = rows[0].date;
     console.log(start_date);
     const st_year = start_date.getFullYear();
     const st_month = start_date.getMonth();
