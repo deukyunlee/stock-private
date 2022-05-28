@@ -53,6 +53,11 @@ router.get(
   controller.stock_daily_yearly_get
 );
 
+router.get(
+  "/daily/specific/for-5yearly/:symbol",
+  controller.stock_daily_5yearly_get
+);
+
 // router.get(
 //   "/kr/change/full-data/",
 //   controller.stock_fluctation_kr_recent_fully_get

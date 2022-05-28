@@ -118,7 +118,7 @@ module.exports.stock_daily_monthly_get = (req, res, next) => {
 module.exports.stock_daily_monthly_3_get = (req, res, next) => {
   const symbol = req.params.symbol;
   const interval = 3;
-  const sql1 = `SELECT distinct date from daily where symbol = ? order by date desc limit 90`;
+  const sql1 = `select date from daily where symbol = ? and date between date_add(now(), interval-3 month) and now() order by date;`;
   db.query(sql1, symbol, function (err, rows, fields) {
     const start_date = rows[rows.length - 1].date;
     const end_date = rows[0].date;
@@ -151,7 +151,40 @@ module.exports.stock_daily_monthly_3_get = (req, res, next) => {
 module.exports.stock_daily_yearly_get = (req, res, next) => {
   const symbol = req.params.symbol;
   const interval = 14;
-  const sql1 = `SELECT distinct date from daily where symbol = ? order by date desc limit 365`;
+  const sql1 = `select date from daily where symbol = ? and date between date_add(now(), interval-1 year) and now() order by date;`;
+  db.query(sql1, symbol, function (err, rows, fields) {
+    const start_date = rows[rows.length - 1].date;
+    const end_date = rows[0].date;
+    console.log(start_date);
+    const st_year = start_date.getFullYear();
+    const st_month = start_date.getMonth();
+    const st_date = start_date.getDate();
+    const start = st_year + "-" + (st_month + 1) + "-" + st_date;
+
+    console.log(start);
+    console.log(end_date);
+
+    const en_year = end_date.getFullYear();
+    const en_month = end_date.getMonth();
+    const en_date = end_date.getDate();
+    const end = en_year + "-" + (en_month + 1) + "-" + en_date;
+    console.log(end);
+    const sql2 = `select symbol, DATE_FORMAT(date,'%Y-%m-%d') as date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start}" and "${end}" group by floor (date/${interval}) order by date;`;
+    // const sql2 = `select symbol, date, open, max(high) as high, min(low) as low, close, sum(volume) as volume from daily where symbol = "${symbol}" and date between "${start_date}" and "${end_date}" group by floor (date/${interval}) order by date;`;
+    // const sql2 = `SELECT * from intraday where symbol ="${symbol}" and date(datetime)=?`;
+    //select symbol, extract(hour from datetime)/4 as hour, open, max(high) as high, min(low) as low, close, sum(volume) as volume from intraday where symbol = "aapl" and datetime between "2022-01-01" and "2022-04-01" group by date(datetime), hour order by datetime asc;
+    db.query(sql2, function (err, rows, fields) {
+      if (err) console.log(err);
+      res.json(rows);
+    });
+  });
+};
+
+// for every 5year - 2months interval
+module.exports.stock_daily_5yearly_get = (req, res, next) => {
+  const symbol = req.params.symbol;
+  const interval = 60;
+  const sql1 = `select date from daily where symbol = ? and date between date_add(now(), interval-5 year) and now() order by date;`;
   db.query(sql1, symbol, function (err, rows, fields) {
     const start_date = rows[rows.length - 1].date;
     const end_date = rows[0].date;
