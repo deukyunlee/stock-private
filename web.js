@@ -100,12 +100,14 @@ const stock_get = require("./src/routes/stockGetRouter");
 const cap_get = require("./src/routes/capGetRouter");
 const change_get = require("./src/routes/fluctationGetRouter");
 const company_insert = require("./src/routes/companyInsertRouter");
+const realtime_get = require("./src/routes/realtimeGetRouter");
 // const search = require("./src/routes/fluctationGetRouter");
 const search = require("./src/routes/searchRouter");
 app.use("/stock", stock_get);
 app.use("/cap", cap_get);
 app.use("/change", change_get);
 app.use("/company", company_insert);
+app.use("/realtime", realtime_get);
 
 app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use("/search", search);
