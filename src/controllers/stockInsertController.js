@@ -14,6 +14,7 @@ module.exports.insert_daily_data = async function getDaily() {
   let url = [];
 
   url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=full&apikey=${API_KEY}`;
+  //console.log(url);
   try {
     resApi = await axios({
       method: "get",
@@ -22,7 +23,7 @@ module.exports.insert_daily_data = async function getDaily() {
   } catch {
     console.log("axios failed");
   }
-
+  // console.log(resApi);
   try {
     resData = resApi.data;
   } catch {
@@ -33,7 +34,7 @@ module.exports.insert_daily_data = async function getDaily() {
     content = await resData["Time Series (Daily)"];
     if (content) {
       const keys = Object.keys(content);
-
+      // console.log(content);
       let sql = `insert IGNORE into daily(symbol, date, open, high,low,close,volume) values (?)`;
 
       keys.forEach(function (key, index) {
@@ -46,10 +47,16 @@ module.exports.insert_daily_data = async function getDaily() {
         const close = parseFloat(row["4. close"]);
         const volume = parseInt(row["5. volume"]);
         const array = [symbol, date, open, high, low, close, volume];
-        db.query(sql, [array], function (err, rows, fields) {});
+        db.query(sql, [array], function (err, rows, fields) {
+          if (err) console.log(err);
+          console.log(rows);
+        });
       });
       sql = `select max(date) as max from daily where symbol = 'a'`;
       db.query(sql, function (err, rows, fields) {
+        console.log("here");
+        if (err) console.log(err);
+        // console.log(rows);
         let max = rows[0].max;
         console.log(max);
 
@@ -63,6 +70,7 @@ module.exports.insert_daily_data = async function getDaily() {
         db.query(sql, max, function (err, rows, fields) {
           sql = `SELECT shareout, symbol from company_info where updatedAt_daily<'${max}' OR updatedAt_daily IS null`;
           db.query(sql, async function (err, rows, fields) {
+            if (err) console.log(err);
             for (var i in rows) {
               let symbol = rows[i].symbol;
               console.log(symbol);
@@ -75,7 +83,7 @@ module.exports.insert_daily_data = async function getDaily() {
 
               if (symbol) {
                 try {
-                  url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=compact&apikey=${API_KEY}`;
+                  url = `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&outputsize=full&apikey=${API_KEY}`;
                   // console.log(url);
                 } catch {
                   console.log("symbol or url not found");
@@ -154,7 +162,9 @@ module.exports.insert_daily_data = async function getDaily() {
                       let value = rows[i].value;
                       let percent = rows[i].percent;
                       sql = `update daily set change_percent = '${percent}', change_value = ${value} where symbol = ? and date = '${date}'`;
-                      db.query(sql, symbol, function (err, rows, fields) {});
+                      db.query(sql, symbol, function (err, rows, fields) {
+                        if (err) console.log(err);
+                      });
                     }
                   });
                 });
