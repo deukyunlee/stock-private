@@ -85,7 +85,9 @@ exports.autoLogin = async function (req, res) {
   const userIdResult = req.verifiedToken.id;
   const userNameResult = req.verifiedToken.name;
 
-  return res.send({ "isSuccess": true, "code": 200, "message": "[SUCCESS]userToken_verification_success", "result" : {userIdResult, userNameResult}});
+  res.send({ "isSuccess": true, "code": 200, "message": "[SUCCESS]userToken_verification_success",
+    "result" : {userId : userIdResult, name : userNameResult}});
+  return;
 };
 
 
