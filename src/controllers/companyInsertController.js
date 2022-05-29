@@ -161,6 +161,42 @@ module.exports.insert_company_cap = async function getSymbol() {
   //   }
   // }
 };
+module.exports.insert_rank_info = async function getRankInfo() {
+  const sql =
+    "select symbol, rank() over (order by cap desc) as ranking from daily group by symbol;";
+
+  db.query(sql, (err, result) => {
+    console.log(result);
+  });
+};
+module.exports.insert_cap_info = async function getInfo() {
+  const sql = "select symbol, max(date) as date from daily group by symbol;";
+  db.query(sql, (err, result) => {
+    // console.log(result);
+    Object.keys(result).forEach(async function (key) {
+      let symbol = result[key].symbol;
+      console.log(result[key].symbol);
+      console.log(result[key].date);
+      let start_date = result[key].date;
+      // console.log(start_date);
+      const st_year = start_date.getFullYear();
+      const st_month = start_date.getMonth();
+      const st_date = start_date.getDate();
+      const start = st_year + "-" + (st_month + 1) + "-" + st_date;
+      console.log(start);
+      const sql = `select cap from daily where symbol = "${symbol}" and date = "${start}"`;
+      db.query(sql, async (err, result) => {
+        Object.keys(result).forEach(async function (key) {
+          const sql1 = `update info set cap = ${result[key].cap} where symbol = "${symbol}"`;
+          db.query(sql1, async (err, result) => {
+            if (err) console.log(err);
+          });
+          //console.log(result[key].cap);
+        });
+      });
+    });
+  });
+};
 
 async function insertInfo(symbol) {
   const count = 500;
