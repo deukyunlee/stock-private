@@ -7,7 +7,7 @@ var logger = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 const app = require("express")();
-// const cron_scheduler = require("./src/funcs/cron-scheduler");
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -69,13 +69,6 @@ cron.schedule("* * * * * *", () => {
 //   //socketPath: socket_path,
 // });
 
-// db.connect(function (error) {
-//   if (error) {
-//     console.log(error);
-//   } else {
-//     console.log("Connected!:)");
-//   }
-// });
 module.exports = db;
 
 app.use(logger("dev"));
@@ -84,42 +77,30 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/test2", (req, res) => {
-  const sql = `select * from daily where symbol = 'aapl';`;
-  db.query(sql, (err, rows, fields) => {
-    res.json(rows);
-  });
-});
-
-//
-// app.use("/", (req, res) => {
-//   res.json(__dirname);
-// });
-
+// requiring routers
 const stock_get = require("./src/routes/stockGetRouter");
 const cap_get = require("./src/routes/capGetRouter");
 const change_get = require("./src/routes/fluctationGetRouter");
 const company_insert = require("./src/routes/companyInsertRouter");
 const realtime_get = require("./src/routes/realtimeGetRouter");
-// const search = require("./src/routes/fluctationGetRouter");
 const search = require("./src/routes/searchRouter");
 const login = require("./src/routes/loginRouter");
+
+// specifying path of routers
 app.use("/stock", stock_get);
 app.use("/cap", cap_get);
 app.use("/change", change_get);
 app.use("/company", company_insert);
 app.use("/realtime", realtime_get);
-
 app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use("/search", search);
 app.use("/login", login);
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
-// app.use("/", (req, res) => {
-//   res.json("hi");
-// });
+
 console.log(__dirname);
 // error handler
 app.use(function (err, req, res, next) {

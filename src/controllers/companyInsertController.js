@@ -88,78 +88,6 @@ module.exports.insert_company_cap = async function getSymbol() {
       }
     });
   }
-
-  //     sql = `select max(datetime) as max from intraday where symbol = 'a'`;
-  //     db.query(sql, function (err, rows, fields) {
-  //       let max = rows[0].max;
-  //       sql = `UPDATE company_info SET updatedAt_intraday = ? where symbol = "a";`;
-  //       db.query(sql, max, function (err, rows, fields) {
-  //         sql = `SELECT symbol from company_info where updatedAt_intraday<'${max}' OR updatedAt_intraday IS null`;
-  //         db.query(sql, async function (err, rows, fields) {
-  //           for (var i in rows) {
-  //             let symbol = rows[i].symbol;
-  //             await delayFunc.sleep(12050);
-  //             count = rows.length - id;
-  //             id += 1;
-  //             console.log(symbol);
-
-  //             if (symbol) {
-  //               try {
-  //                 url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&outputsize=full&apikey=${API_KEY}`;
-  //               } catch {
-  //                 console.log("symbol or url not found");
-  //               }
-  //             }
-  //             try {
-  //               resApi = await axios({
-  //                 method: "get",
-  //                 url: url,
-  //               });
-  //             } catch {
-  //               console.log("axios failed");
-  //             }
-
-  //             try {
-  //               resData = resApi.data;
-  //             } catch {
-  //               console.log("no data");
-  //             }
-
-  //             let content = await resData["Time Series (5min)"];
-  //             if (content) {
-  //               const keys = Object.keys(content);
-
-  //               let sql = `insert IGNORE into intraday(symbol, datetime, open, high,low,close,volume) values (?)`;
-
-  //               console.log(
-  //                 `${symbol} inserted into database : ${count} symbols left`
-  //               );
-
-  //               keys.forEach(function (key, index) {
-  //                 const row = content[key];
-  //                 const date = keys[index];
-  //                 const open = parseFloat(row["1. open"]);
-  //                 const high = parseFloat(row["2. high"]);
-  //                 const low = parseFloat(row["3. low"]);
-  //                 const close = parseFloat(row["4. close"]);
-  //                 const volume = parseInt(row["5. volume"]);
-  //                 const array = [symbol, date, open, high, low, close, volume];
-  //                 db.query(sql, [array], function (err, rows, fields) {
-  //                   if (err) console.log(err);
-  //                 });
-  //               });
-
-  //               let sql2 = `UPDATE company_info SET updatedAt_intraday = '${max}' where symbol = ?`;
-  //               db.query(sql2, symbol, function (err, rows, fields) {
-  //                 if (err) console.log(err);
-  //               });
-  //             }
-  //           }
-  //         });
-  //       });
-  //     });
-  //   }
-  // }
 };
 module.exports.insert_rank_info = async function getRankInfo() {
   const sql =
@@ -209,15 +137,7 @@ module.exports.insert_cap_info = async function getInfo() {
 
 async function insertInfo(symbol) {
   const count = 500;
-  // try {
-  //   const sql = `UPDATE company_info SET img='${imgstr}' WHERE symbol = '${symbol}'`;
-  //   db.query(sql, function (err, rows, fields) {
-  //     if (err) console.log(err);
-  //     //console.log(rows);
-  //   });
-  // } catch (error) {
-  //   console.log(error);
-  // }
+
   const url = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
 
   try {
@@ -252,8 +172,6 @@ async function insertInfo(symbol) {
   } catch {
     console.log("sql error");
   }
-  // console.log(resApi);
-  // console.log(symbol);
 }
 
 module.exports.insert_company_info = async function getInfo() {
@@ -763,199 +681,12 @@ module.exports.insert_company_info = async function getInfo() {
     "NLSN",
   ];
   for (const symbol of symbols) {
-    //console.log(symbol + " insert . . . ");
-    // await delayFunc.sleep(12050);
-    // await insertInfo(symbol);
     const sql = `insert into info(symbol) values("${symbol}")`;
     db.query(sql, (err, result) => {
       if (err) console.log(err);
     });
   }
-  // sql = `select symbol from company_info;`;
-
-  // db.query(sql, (err, result, fields) => {
-  //   // console.log(rows);
-  //   Object.keys(result).forEach(async function (key) {
-  //     symbol = result[key].symbol;
-  //     if (symbol) {
-  //       // console.log(symbol);
-  //       url[
-  //         key
-  //       ] = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
-  //     } else console.log("no symbol");
-
-  // for (var key in url) {
-  //   //console.log(url[key]);
-  //   await delayFunc.sleep(12050);
-  //   console.log(url[key]);
-  // try {
-  //   resApi = await axios({
-  //     method: "get",
-  //     url: url[key],
-  //   });
-  // } catch {
-  //   console.log("axios failed");
-  // }
-  // await console.log(resApi);
-  // try {
-  //   resData = resApi.data;
-  // } catch {
-  //   console.log("no data");
-  // }
-  // try {
-  //   let per = await resData["PERatio"];
-  //   let pbr = await resData["PriceToBookRatio"];
-  //   let eps = await resData["EPS"];
-  //   let roe = await resData["ReturnOnEquityTTM"];
-  //   let sql = `insert IGNORE into info(symbol,per,pbr,eps,roe) values (?)`;
-  //   const array = [symbol, per, pbr, eps, roe];
-  //   db.query(sql, [array], function (err, rows, fields) {
-  //     if (err) console.log(err);
-  //   });
-  //   count -= 1;
-  //   console.log(
-  //     symbol + " inserted into database : " + count + " symbols left"
-  //   );
-  // } catch {
-  //   console.log("sql error");
-  // }
-  //}
-  // });
-
-  // console.log(url);
-  // console.log(key);
-
-  // db.query(sql, (err, result) => {
-  //   Object.keys(result).forEach(async function (key) {
-  //     symbol = result[key].symbol;
-  //     console.log(symbol);
-  //     if (symbol) {
-  //       url[
-  //         key
-  //       ] = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
-  //     } else console.log("no symbol");
-
-  //     for (var key in url) {
-  //       console.log(url);
-  //     }
-  //     /*
-  //       await delayFunc.sleep(12050);
-  //       try {
-  //         resApi = await axios({
-  //           method: "get",
-  //           url: url,
-  //         });
-  //       } catch {
-  //         console.log("axios failed");
-  //       }
-
-  //       try {
-  //         resData = resApi.data;
-  //       } catch {
-  //         console.log("no data");
-  //       }
-
-  //       try {
-  //         let per = await resData["PERatio"];
-  //         let pbr = await resData["PriceToBookRatio"];
-  //         let eps = await resData["EPS"];
-  //         let roe = await resData["ReturnOnEquityTTM"];
-
-  //         let sql = `insert IGNORE into info(symbol, per,pbr,pes,roe) values (?)`;
-
-  //         const array = [symbol, per, pbr, eps, roe];
-  //         db.query(sql, [array], function (err, rows, fields) {
-  //           if (err) console.log(err);
-  //         });
-  //         count -= 1;
-  //         console.log(
-  //           symbol + " inserted into database : " + count + " symbols left"
-  //         );
-  //       } catch {
-  //         console.log("sql error");
-  //       }
-  //       */
-  //   });
-  // });
-  // console.log(url);
 };
-
-// let count = 500;
-// let sql = `select symbol from company_info`;
-// url = [];
-// // var arr = new Array();
-// db.query(sql, (err, result) => {
-//   Object.keys(result).forEach(async function (key) {
-//     // console.log(result[key].symbol);
-//     // arr[key] = result[key].symbol;
-//     // console.log(result[key].symbol);
-//     symbol = result[key].symbol;
-//     if (symbol) {
-//       url[
-//         key
-//       ] = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
-//     } else console.log("no symbol");
-//   });
-// });
-// // console.log(url);
-// for (var key in url) {
-//   console.log(url);
-//   await delayFunc.sleep(12050);
-//   console.log(url);
-//   try {
-//     resApi = await axios({
-//       method: "get",
-//       url: url[key],
-//     });
-//     console.log(resApi);
-//   } catch {
-//     console.log("axios failed");
-//   }
-//   let resData = resApi.data;
-//   const marketCap = await resData["MarketCapitalization"];
-//   if (marketCap) {
-//     const sql = `insert IGNORE into company_info(cap) values (?) where symbol =?`;
-//     count -= 1;
-//     console.log(
-//       symbol + " inserted into database : " + count + " symbols left"
-//     );
-//     const array = [marketCap, symbol];
-//     db.query(sql, [array], function (err, rows, fields) {});
-//   } else {
-//     console.log("no data");
-//   }
-// }
-// console.log(arr[0]);
-// const data = await crawling.crawlSymbol();
-// for (var key in data) {
-//   url = new Array();
-//   symbol = data[key].symbol;
-//   url[
-//     key
-//   ] = `https://www.alphavantage.co/query?function=OVERVIEW&symbol=${symbol}&apikey=${API_KEY}`;
-//   await delayFunc.sleep(12050).then(() =>
-//     axios({
-//       method: "get",
-//       url: url[key],
-//     })
-//       .then((res) => {
-//         let res2 = res.data;
-//         const marketCap = res2["MarketCapitalization"];
-//         if (marketCap) {
-//           const sql = `insert IGNORE into company_info(cap) values (?) where symbol =?`;
-//           count -= 1;
-//           console.log(
-//             symbol + " inserted into database : " + count + " symbols left"
-//           );
-//           const array = [marketCap, symbol];
-//           db.query(sql, [array], function (err, rows, fields) {});
-//         }
-//       })
-//       .catch(() => {
-//         console.log("rejected");
-//       })
-//   );
-// }
 
 //store logo img to CompanyInfo table ('img' column)
 async function insertImg(symbol) {
