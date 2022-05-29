@@ -103,6 +103,7 @@ const company_insert = require("./src/routes/companyInsertRouter");
 const realtime_get = require("./src/routes/realtimeGetRouter");
 // const search = require("./src/routes/fluctationGetRouter");
 const search = require("./src/routes/searchRouter");
+const login = require("./src/routes/loginRouter");
 app.use("/stock", stock_get);
 app.use("/cap", cap_get);
 app.use("/change", change_get);
@@ -111,6 +112,7 @@ app.use("/realtime", realtime_get);
 
 app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use("/search", search);
+app.use("/login", login);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
