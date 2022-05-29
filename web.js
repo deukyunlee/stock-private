@@ -114,4 +114,5 @@ app.use(function (err, req, res, next) {
 app.listen(process.env.PORT || 8001);
 module.exports = app;
 
-// cron circular dependency 문제 해결하기
+// cron circular dependency 문제 해결하기 - daily, intraday 데이터 삽입
+// stock path에서 company 분리해주기
