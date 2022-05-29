@@ -93,11 +93,11 @@ exports.delete = async (req, res, next) => {
       if(d.change_percent>0,concat("+",ROUND(d.change_percent,1)),ROUND(d.change_percent,1)) as change_percent, 
       if(d.change_value>0,concat("+",ROUND(d.change_value*1269,2)),ROUND(d.change_value*1269,2)) as change_value,
         c.img as img
-    FROM daily as d 
+    FROM dufqkd1004.daily as d 
       INNER JOIN 
-        company_info as c
+      dufqkd1004.company_info as c
         ON d.symbol=c.symbol 
-    WHERE c.objectID IN(SELECT company_id FROM login.favorite WHERE user_id='${user_id}') and
+    WHERE c.objectID IN(SELECT company_id FROM dufqkd1004.favorite WHERE user_id='${user_id}') and
       d.date = "2022-05-04" and img is not null and change_percent is not null and d.symbol != "MRO" 
     ORDER by d.change_percent;`
     
