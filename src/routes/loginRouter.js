@@ -17,7 +17,7 @@ router.get('/auto-login', account.verifyToken, Usercontroller.autoLogin)
 // 유저 생성 및 회원 정보 요청, social_login
 // url => '/login/${social_name}'
 router.post('/kakao', Usercontroller.kakaologin);
-router.post('/google', social_login.googlelogin);
+router.post('/google', Usercontroller.googlelogin);
 
 
 module.exports = router;
