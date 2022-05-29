@@ -236,7 +236,7 @@ module.exports.stock_company_specific_get = (req, res, next) => {
 };
 module.exports.stock_company_additional_get = (req, res, next) => {
   const symbol = req.params.symbol;
-  const sql = `select * from info where per is not null;`;
+  const sql = `select * from info where per is not null and symbol = ?;`;
   db.query(sql, symbol, function (err, rows, fields) {
     res.json(rows);
   });
