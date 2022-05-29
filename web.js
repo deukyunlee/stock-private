@@ -51,13 +51,6 @@ const db = mysql.createConnection({
   //socketPath: socket_path,
 });
 
-/*
-cron.schedule("* * * * * *", () => {
-  db.query("insert into test1 values(1)", (err, rows) => {
-    if (err) console.log(err);
-  });
-});
-*/
 // const db = mysql.createConnection({
 //   host: "localhost",
 //   user: "root",
@@ -120,3 +113,5 @@ app.use(function (err, req, res, next) {
 
 app.listen(process.env.PORT || 8001);
 module.exports = app;
+
+// cron circular dependency 문제 해결하기
