@@ -87,6 +87,9 @@ const search = require("./src/routes/searchRouter");
 const login = require("./src/routes/loginRouter");
 
 // specifying path of routers
+
+const favorite = require("./src/routes/favoriteRouter");
+
 app.use("/stock", stock_get);
 app.use("/cap", cap_get);
 app.use("/change", change_get);
@@ -95,6 +98,8 @@ app.use("/realtime", realtime_get);
 app.use("/swagger", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 app.use("/search", search);
 app.use("/login", login);
+
+app.use("/favorite", favorite);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
