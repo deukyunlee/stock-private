@@ -56,7 +56,21 @@ exports.list = async function (req, res) {
 
   const user_id = req.verifiedToken.id; // JWT_TOKEN에서 추출한 값 가져옴
 
-  const searchsql = "SELECT * FROM dufqkd1004.company_info WHERE objectID IN(SELECT company_id FROM dufqkd1004.favorite WHERE user_id='" +user_id+ "')"
+  //const searchsql = "SELECT * FROM dufqkd1004.company_info WHERE objectID IN(SELECT company_id FROM dufqkd1004.favorite WHERE user_id='" +user_id+ "')"
+  const searchsql = `SELECT 
+      d.symbol as symbol,
+        c.name_kr as name_kr,
+      d.close,
+      if(d.change_percent>0,concat("+",ROUND(d.change_percent,1)),ROUND(d.change_percent,1)) as change_percent, 
+      if(d.change_value>0,concat("+",ROUND(d.change_value*1269,2)),ROUND(d.change_value*1269,2)) as change_value,
+        c.img as img
+    FROM dufqkd1004.daily as d 
+      INNER JOIN 
+      dufqkd1004.company_info as c
+        ON d.symbol=c.symbol 
+    WHERE c.objectID IN(SELECT company_id FROM dufqkd1004.favorite WHERE user_id='${user_id}') and
+      d.date = "2022-05-04" and img is not null and change_percent is not null and d.symbol != "MRO" 
+    ORDER by d.change_percent;`
   db.query(searchsql, function(err, result, field){
     //console.log(result);
     if (result.length) {
@@ -86,21 +100,8 @@ exports.delete = async (req, res, next) => {
 
   let company_id;
   //회사 symbol (company_symbol 받아온거)로 company_info 테이블에서 objectID찾기
-  const searchsql = `SELECT 
-      d.symbol as symbol,
-        c.name_kr as name,
-      d.close,
-      if(d.change_percent>0,concat("+",ROUND(d.change_percent,1)),ROUND(d.change_percent,1)) as change_percent, 
-      if(d.change_value>0,concat("+",ROUND(d.change_value*1269,2)),ROUND(d.change_value*1269,2)) as change_value,
-        c.img as img
-    FROM dufqkd1004.daily as d 
-      INNER JOIN 
-      dufqkd1004.company_info as c
-        ON d.symbol=c.symbol 
-    WHERE c.objectID IN(SELECT company_id FROM dufqkd1004.favorite WHERE user_id='${user_id}') and
-      d.date = "2022-05-04" and img is not null and change_percent is not null and d.symbol != "MRO" 
-    ORDER by d.change_percent;`
-    
+  const companyidsearchsql = "SELECT objectID, symbol FROM company_info WHERE symbol='" +company_symbol+ "';"
+  
   db.query(companyidsearchsql, function(err, result, field) {
     if (result.length) { //있으면 userId, userToken 전송
       console.log("company_id: ", result[0].objectID);
