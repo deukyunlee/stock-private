@@ -9,6 +9,11 @@ router.get("/company/full-data", controller.stock_company_fully_get);
 router.get("/company/specific/:symbol", controller.stock_company_specific_get);
 
 router.get(
+  "/company/additional/:symbol",
+  controller.stock_company_additional_get
+);
+
+router.get(
   "/daily/specific/full-data/:symbol",
   controller.stock_daily_fully_get
 );
