@@ -77,6 +77,7 @@ async function searchdata(endpoint, method) {
   2. kr
   3. en
 */
+
 module.exports.search_stock = (req, res, next) => {
   const method = req.params.method;
   const keyword = req.params.keyword;
