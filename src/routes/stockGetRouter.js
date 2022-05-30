@@ -2,7 +2,8 @@ const router = require("express").Router();
 const controller = require("../controllers/stockGetController");
 const controller2 = require("../controllers/companyInsertController");
 const controller3 = require("../controllers/stockInsertController");
-
+const validation = require("../funcs/validation");
+const { validate } = require("../funcs/validationMiddleware");
 router.get("/company/image", controller2.insert_img);
 router.get("/company/full-data", controller.stock_company_fully_get);
 
@@ -10,56 +11,67 @@ router.get("/company/specific/:symbol", controller.stock_company_specific_get);
 
 router.get(
   "/company/additional/:symbol",
+  validate(validation.symbol),
   controller.stock_company_additional_get
 );
 
 router.get(
   "/daily/specific/full-data/:symbol",
+  validate(validation.symbol),
   controller.stock_daily_fully_get
 );
 
 router.get(
   "/intraday/specific/full-data/:symbol",
+  validate(validation.symbol),
   controller.stock_intraday_fully_get
 );
 
 router.get(
   "/daily/specific/interval/:symbol",
+  validate(validation.symbol),
   controller.stock_daily_interval_get
 );
 
 router.get(
   "/company/specific/full-data/:symbol",
+  validate(validation.symbol),
   controller.stock_company_fully_get
 );
 
 router.get(
   "/intraday/specific/for-daily/:symbol",
+  validate(validation.symbol),
   controller.stock_intraday_daily_get
 );
 
 router.get(
   "/intraday/specific/for-weekly/:symbol",
+  validate(validation.symbol),
   controller.stock_intraday_weekly_get
 );
 
 router.get(
   "/daily/specific/for-monthly/:symbol",
+  validate(validation.symbol),
   controller.stock_daily_monthly_get
 );
 
 router.get(
   "/daily/specific/for-3monthly/:symbol",
+  validate(validation.symbol),
   controller.stock_daily_monthly_3_get
 );
 
 router.get(
   "/daily/specific/for-yearly/:symbol",
+  validate(validation.symbol),
   controller.stock_daily_yearly_get
 );
 
 router.get(
   "/daily/specific/for-5yearly/:symbol",
+  validate(validation.symbol),
   controller.stock_daily_5yearly_get
 );
 

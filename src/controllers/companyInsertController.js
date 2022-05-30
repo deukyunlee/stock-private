@@ -175,12 +175,6 @@ async function insertInfo(symbol) {
 }
 
 module.exports.insert_company_info = async function getInfo() {
-  let symbol;
-  let resApi;
-  let resData;
-  let count = 500;
-  let id = 0;
-  let url = [];
   const symbols = [
     "AAPL",
     "MSFT",
