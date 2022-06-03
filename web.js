@@ -79,9 +79,9 @@ const db = mysql.createConnection({
   // dateStrings: "date",
   //socketPath: socket_path,
 });
-app.use("/", function (req, res, next) {
-  res.send("this");
-});
+// app.use("/", function (req, res, next) {
+//   res.send("this");
+// });
 // const db = mysql.createConnection({
 //   host: "localhost",
 //   user: "root",
