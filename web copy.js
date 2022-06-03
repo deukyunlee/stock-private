@@ -8,19 +8,6 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 const app = require("express")();
 const cron = require("node-cron");
-const https = require("https");
-const fs = require("fs");
-const options = {
-  key: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/private.key"
-  ),
-  cert: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificate.crt"
-  ),
-  ca: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/ca_bundle.crt"
-  ),
-};
 const insertController = require("./src/./controllers/stockInsertController");
 
 var moment = require("moment");
@@ -148,13 +135,7 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-// app.listen(process.env.PORT || 8001);
-https
-  .createServer(options, (req, res) => {
-    res.writeHead(200);
-    res.end("hello SecureSign\n");
-  })
-  .listen(8000);
+app.listen(process.env.PORT || 8001);
 module.exports = app;
 
 // cron circular dependency 문제 해결하기 - daily, intraday 데이터 삽입
