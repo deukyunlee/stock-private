@@ -68,7 +68,7 @@ module.exports.insert_daily_data = async function getDaily() {
         const array = [symbol, date, open, high, low, close, volume];
         db.query(sql, [array], function (err, rows, fields) {
           if (err) console.log(err);
-          console.log(rows);
+          // console.log(rows);
         });
       });
       sql = `select max(date) as max from daily where symbol = 'a'`;
