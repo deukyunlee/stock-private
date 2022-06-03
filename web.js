@@ -33,7 +33,8 @@ const swaggerSpec = swaggerJSDoc({
     servers: [
       {
         // url: "http://localhost:8001",
-        url: "http://teststock.cafe24app.com",
+        // url: "http://teststock.cafe24app.com",
+        url: "www.stock-king.co.kr",
       },
     ],
   },
@@ -113,6 +114,10 @@ app.use("/favorite", favorite);
 // update_daily();
 cron.schedule("0 0 10 * * *", async function () {
   insertController.insert_daily_data();
+});
+
+cron.schedule("0 0 21 * * *", async function () {
+  insertController.insert_intraday_data();
 });
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -20,6 +20,7 @@ const db = mysql.createConnection({
 const axios = require("axios");
 const delayFunc = require("../funcs/delayFuncs");
 const API_KEY = "ZO8S591P8HTYI8LV";
+const API_KEY2 = "Q1G3FXNOWQ51WUD9";
 const cron = require("node-cron");
 
 module.exports.insert_daily_data = async function getDaily() {
@@ -207,7 +208,7 @@ module.exports.insert_intraday_data = async function getIntraday() {
   let id = 0;
   let url = [];
 
-  url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&outputsize=full&apikey=${API_KEY}`;
+  url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&outputsize=full&apikey=${API_KEY2}`;
   try {
     resApi = await axios({
       method: "get",
@@ -257,7 +258,7 @@ module.exports.insert_intraday_data = async function getIntraday() {
 
               if (symbol) {
                 try {
-                  url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&outputsize=full&apikey=${API_KEY}`;
+                  url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&outputsize=full&apikey=${API_KEY2}`;
                 } catch {
                   console.log("symbol or url not found");
                 }
