@@ -10,6 +10,7 @@ const app = require("express")();
 const cron = require("node-cron");
 const insertController = require("./src/./controllers/stockInsertController");
 const https = require("https");
+const http = require("http");
 const fs = require("fs");
 var moment = require("moment");
 
@@ -17,6 +18,15 @@ require("moment-timezone");
 moment.tz.setDefault("Asia/Seoul");
 
 console.log(moment().format("YYYY-MM-DD HH:mm:ss"));
+
+// const options = {
+//   key: fs.readFileSync("./certificates/private.key"),
+//   cert: fs.readFileSync("./certificates/certificate.crt"),
+// };
+// view engine setup
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+
 const options = {
   key: fs.readFileSync(
     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/private.key"
@@ -28,13 +38,7 @@ const options = {
     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/ca_bundle.crt"
   ),
 };
-// const options = {
-//   key: fs.readFileSync("./certificates/private.key"),
-//   cert: fs.readFileSync("./certificates/certificate.crt"),
-// };
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "ejs");
+
 const swaggerSpec = swaggerJSDoc({
   swaggerDefinition: {
     openapi: "3.0.2",
@@ -155,6 +159,7 @@ app.use(function (err, req, res, next) {
 const httpsServer = https.createServer(options, app);
 // httpsServer.listen(8001, "stock-king.co.kr");
 httpsServer.listen(443, "stock-king.co.kr");
+http.createServer(app).listen(8001);
 module.exports = app;
 // cron circular dependency 문제 해결하기 - daily, intraday 데이터 삽입
 // stock path에서 company 분리해주기
