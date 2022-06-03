@@ -28,9 +28,15 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 const options = {
-  key: fs.readFileSync("./certificates/private.key"),
-  cert: fs.readFileSync("./certificates/certificate.crt"),
-  ca: fs.readFileSync("./certificates/ca_bundle.crt"),
+  key: fs.readFileSync(
+    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/private.key"
+  ),
+  cert: fs.readFileSync(
+    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/certificate.crt"
+  ),
+  ca: fs.readFileSync(
+    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/ca_bundle.crt"
+  ),
 };
 
 const swaggerSpec = swaggerJSDoc({
@@ -150,8 +156,8 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(process.env.PORT || 8001);
-const httpsServer = https.createServer(options, app);
-httpsServer.listen(443, "stock-king.co.kr");
+// const httpsServer = https.createServer(options, app);
+// httpsServer.listen(443, "stock-king.co.kr");
 // httpsServer.listen(443, "stock-king.co.kr");
 // http.createServer(app).listen(8001);
 module.exports = app;
