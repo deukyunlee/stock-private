@@ -25,7 +25,7 @@ const options = {
     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/certificate.crt"
   ),
   ca: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/ca-bundle.crt"
+    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/ca_bundle.crt"
   ),
 };
 // const options = {
