@@ -7,6 +7,16 @@ var logger = require("morgan");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 const app = require("express")();
+const cron = require("node-cron");
+
+const insertController = require("./src/./controllers/stockInsertController");
+
+var moment = require("moment");
+
+require("moment-timezone");
+moment.tz.setDefault("Asia/Seoul");
+
+console.log(moment().format("YYYY-MM-DD HH:mm:ss"));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -94,6 +104,16 @@ app.use("/login", login);
 
 app.use("/favorite", favorite);
 
+// const update_daily = function () {
+//   cron.schedule("0 18 * * * *", () => {
+//     insertController.insert_daily_data();
+//     console.log("18분!");
+//   });
+// };
+// update_daily();
+cron.schedule("0 40 * * * *", async function () {
+  insertController.insert_daily_data();
+});
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

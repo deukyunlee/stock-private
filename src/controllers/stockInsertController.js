@@ -1,7 +1,26 @@
-const db = require("../../web.js");
+// const db = require("../../web.js");
+const mysql = require("mysql");
+const db = mysql.createConnection({
+  host: "teststock.cafe24app.com",
+  user: "dufqkd1004",
+  password: "capstone!!",
+  database: "dufqkd1004",
+  port: "3306",
+  multipleStatements: true,
+  typeCast: function (field, next) {
+    if (field.type == "VAR_STRING") {
+      return field.string();
+    }
+    return next();
+  },
+  multipleStatements: true,
+  // dateStrings: "date",
+  //socketPath: socket_path,
+});
 const axios = require("axios");
 const delayFunc = require("../funcs/delayFuncs");
 const API_KEY = "ZO8S591P8HTYI8LV";
+const cron = require("node-cron");
 
 module.exports.insert_daily_data = async function getDaily() {
   console.log("insert");
