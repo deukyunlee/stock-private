@@ -18,15 +18,9 @@ moment.tz.setDefault("Asia/Seoul");
 
 console.log(moment().format("YYYY-MM-DD HH:mm:ss"));
 const options = {
-  key: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/private.key"
-  ),
-  cert: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/certificate.crt"
-  ),
-  ca: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/ca_bundle.crt"
-  ),
+  key: fs.readFileSync("./certificates/private.key"),
+  cert: fs.readFileSync("./certificates/certificate.crt"),
+  ca: fs.readFileSync("./certificates/ca_bundle.crt"),
 };
 // const options = {
 //   key: fs.readFileSync("./certificates/private.key"),
@@ -75,8 +69,8 @@ const db = mysql.createConnection({
   // dateStrings: "date",
   //socketPath: socket_path,
 });
-app.use("/", function () {
-  console.log("this");
+app.use("/", function (req, res, next) {
+  res.send("this");
 });
 // const db = mysql.createConnection({
 //   host: "localhost",
@@ -139,7 +133,6 @@ cron.schedule("0 0 21 * * *", async function () {
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
 console.log(__dirname);
 // error handler
 app.use(function (err, req, res, next) {
@@ -154,8 +147,8 @@ app.use(function (err, req, res, next) {
 
 // app.listen(process.env.PORT || 8001);
 const httpsServer = https.createServer(options, app);
-httpsServer.listen(8001, "stock-king.co.kr");
-
+// httpsServer.listen(8001, "stock-king.co.kr");
+httpsServer.listen(443, "stock-king.co.kr");
 module.exports = app;
 // cron circular dependency 문제 해결하기 - daily, intraday 데이터 삽입
 // stock path에서 company 분리해주기
