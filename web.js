@@ -42,7 +42,7 @@ const swaggerSpec = swaggerJSDoc({
       {
         // url: "http://localhost:8001",
         // url: "http://teststock.cafe24app.com",
-        url: "http://www.stock-king.co.kr",
+        url: "https://www.stock-king.co.kr",
       },
     ],
   },
