@@ -156,8 +156,8 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(process.env.PORT || 8001);
-// const httpsServer = https.createServer(options, app);
-// httpsServer.listen(8001, "stock-king.co.kr");
+const httpsServer = https.createServer(options, app);
+httpsServer.listen(443, "stock-king.co.kr");
 // httpsServer.listen(443, "stock-king.co.kr");
 // http.createServer(app).listen(8001);
 module.exports = app;
