@@ -88,14 +88,14 @@ module.exports.insert_daily_data = async function getDaily() {
 
         sql = `UPDATE company_info SET updatedAt_daily = ? where symbol = "a";`;
         db.query(sql, max, function (err, rows, fields) {
-          sql = `SELECT shareout, symbol from company_info where updatedAt_daily<'${max}' OR updatedAt_daily IS null`;
+          sql = `SELECT symbol from company_info where date(updatedAt_daily<'${max}') OR updatedAt_daily IS null`;
           db.query(sql, async function (err, rows, fields) {
             if (err) console.log(err);
             for (var i in rows) {
               let symbol = rows[i].symbol;
               console.log(symbol);
-              let shareout = rows[i].shareout;
-              console.log(shareout);
+              // let shareout = rows[i].shareout;
+              // console.log(shareout);
               await delayFunc.sleep(12050);
               count = rows.length - id;
               id += 1;
@@ -242,9 +242,18 @@ module.exports.insert_intraday_data = async function getIntraday() {
         const array = [symbol, date, open, high, low, close, volume];
         db.query(sql, [array], function (err, rows, fields) {});
       });
-      sql = `select max(datetime) as max from intraday where symbol = 'a'`;
+      sql = `select max(date(datetime)) as max from intraday where symbol = 'a'`;
       db.query(sql, function (err, rows, fields) {
         let max = rows[0].max;
+
+        // console.log(max);
+
+        const max_year = max.getFullYear();
+        const max_month = max.getMonth();
+        console.log(max_month);
+        const max_date = max.getDate();
+        max = max_year + "-" + (max_month + 1) + "-" + max_date;
+
         sql = `UPDATE company_info SET updatedAt_intraday = ? where symbol = "a";`;
         db.query(sql, max, function (err, rows, fields) {
           sql = `SELECT symbol from company_info where updatedAt_intraday<'${max}' OR updatedAt_intraday IS null`;

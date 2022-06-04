@@ -111,19 +111,22 @@ app.use("/favorite", favorite);
 //   });
 // };
 // update_daily();
-cron.schedule("0 0 10 * * *", async function () {
-  insertController.insert_daily_data();
-});
 
-cron.schedule("0 0 21 * * *", async function () {
-  insertController.insert_intraday_data();
-});
+// cron.schedule("0 0 10 * * *", async function () {
+//   insertController.insert_daily_data();
+// });
+
+// cron.schedule("0 0 21 * * *", async function () {
+//   insertController.insert_intraday_data();
+// });
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
 console.log(__dirname);
+var date = new Date("2022-02-02 16:00:00");
+console.log(date.getHours());
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
