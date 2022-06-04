@@ -161,7 +161,7 @@ db.query(recentDateSql, (err, result) => {
   });
 });
 
-const recentDatetimeSql = `select datetime from intraday where symbol = "a" order by date desc limit 1`;
+const recentDatetimeSql = `select date(datetime) from intraday where symbol = "a" order by datetime desc limit 1`;
 // const recentDateSql = `select * from daily where date = "2022-08-08";`;
 db.query(recentDatetimeSql, (err, result) => {
   if (err) console.log(err);
