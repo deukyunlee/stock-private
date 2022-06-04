@@ -8,6 +8,7 @@
   "dependencies": {
     "@tensorflow/tfjs": "^3.18.0",
     "algoliasearch": "^4.13.0",
+    "apple-auth": "^1.0.7",
     "axios": "^0.26.1",
     "cookie-parser": "~1.4.4",
     "date-utils": "^1.2.21",

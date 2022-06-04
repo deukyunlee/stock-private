@@ -69,7 +69,8 @@ exports.list = async function (req, res) {
       dufqkd1004.company_info as c
         ON d.symbol=c.symbol 
     WHERE c.objectID IN(SELECT company_id FROM dufqkd1004.favorite WHERE user_id='${user_id}') and
-      d.date = "2022-05-04" and img is not null and change_percent is not null and d.symbol != "MRO" 
+      d.date=(SELECT max(date) FROM dufqkd1004.daily where change_percent is not null)
+      and img is not null and change_percent is not null and d.symbol != "MRO" 
     ORDER by d.change_percent;`
   db.query(searchsql, function(err, result, field){
     //console.log(result);

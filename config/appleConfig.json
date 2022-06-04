@@ -1,0 +1,8 @@
+{
+  "client_id": "com.wwww.stockKing",
+  "team_id": "SVTPX8LD4Q",
+  "key_id": "3229BWMH7R",
+  "redirect_uri": "https://stock-king.shop/login/google/callback",
+  "scope" : "name",
+  "private_key_path": "AuthKey_AB12CD123E.p8"
+}

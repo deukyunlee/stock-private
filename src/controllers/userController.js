@@ -5,6 +5,12 @@ const jwt = require("jsonwebtoken");
 const db = require("../../web.js");
 const axios = require("axios");
 
+//apple login
+const path = require('path');
+const AppleAuth = require('apple-auth');
+const appleConfig = require("../../config/appleConfig");
+const auth = new AppleAuth(appleConfig, path.join(__dirname,'../../config/AuthKey_3229BWMH7R.p8'));
+
 const google_url = "https://oauth2.googleapis.com/tokeninfo";
 const kakao_url = "https://kapi.kakao.com/v2/user/me";
 
@@ -225,6 +231,13 @@ exports.autoLogin = async function (req, res) {
   });
 };
 
+//applelogin
+
+
+exports.appleloginCallback = async function (req, res) {
+  return res.status(200).json();
+}
+
 // User 삭제
 exports.deleteAccount = async (req, res, next) => {
   const user_info = req.verifiedToken;
@@ -247,3 +260,5 @@ exports.deleteAccount = async (req, res, next) => {
     }
   );
 };
+
+
