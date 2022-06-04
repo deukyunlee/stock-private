@@ -161,27 +161,27 @@ db.query(recentDateSql, (err, result) => {
   });
 });
 
-const recentDatetimeSql = `select date(datetime) as date from intraday where symbol = "a" order by date(datetime) desc limit 1`;
-// const recentDateSql = `select * from daily where date = "2022-08-08";`;
-db.query(recentDatetimeSql, (err, result) => {
-  if (err) console.log(err);
+// const recentDatetimeSql = `select date(datetime) as date from intraday where symbol = "a" order by date(datetime) desc limit 1`;
+// // const recentDateSql = `select * from daily where date = "2022-08-08";`;
+// db.query(recentDatetimeSql, (err, result) => {
+//   if (err) console.log(err);
 
-  var queryDate = result[0].date;
-  console.log(queryDate);
-  const year = queryDate.getFullYear();
-  const month = queryDate.getMonth();
-  const date = queryDate.getDate();
+//   var queryDate = result[0].date;
+//   console.log(queryDate);
+//   const year = queryDate.getFullYear();
+//   const month = queryDate.getMonth();
+//   const date = queryDate.getDate();
 
-  const initialDate = year + "-" + (month + 1) + "-" + date;
-  console.log(initialDate);
+//   const initialDate = year + "-" + (month + 1) + "-" + date;
+//   console.log(initialDate);
 
-  const remainSql = `select symbol from company_info where updatedAt_intraday < ?`;
-  db.query(remainSql, initialDate, (err, result) => {
-    if (result.length) {
-      insertController.insert_intraday_data();
-    }
-  });
-});
+//   const remainSql = `select symbol from company_info where updatedAt_intraday < ?`;
+//   db.query(remainSql, initialDate, (err, result) => {
+//     if (result.length) {
+//       insertController.insert_intraday_data();
+//     }
+//   });
+// });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
