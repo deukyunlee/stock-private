@@ -228,7 +228,7 @@ module.exports.stock_company_specific_get = (req, res, next) => {
   const sql1 = `update company_info set hit = hit + 1 where symbol = ?`;
   db.query(sql1, symbol, function (err, rows, fields) {
     //const sql = "select c.img as img, d.close,d.change_percent as change_percent,d.change_value*1269 as change_value,d.symbol as symbol,c.name_kr as name from daily as d inner join company_info as c on d.symbol=c.symbol where d.date = "2022-05-05" and img is not null and change_percent is not null order by d.change_percent desc";
-    const sql = `select c.symbol, d.close,if(d.change_percent>0,concat("+",ROUND(d.change_percent,1)),ROUND(d.change_percent,1)) as change_percent, if(d.change_value>0,concat("+",ROUND(d.change_value*1269,2)),ROUND(d.change_value*1269,2)) as change_value, c.name_en, c.name_kr, c.desc_en, c.desc_kr, img, shareout from daily as d inner join company_info as c on d.symbol = c.symbol where d.symbol = ? and change_percent is not null group by symbol;`;
+    const sql = `select c.symbol, d.close,if(d.change_percent>0,concat("+",ROUND(d.change_percent,1)),ROUND(d.change_percent,1)) as change_percent, if(d.change_value>0,concat("+",ROUND(d.change_value*1269,2)),ROUND(d.change_value*1269,2)) as change_value, c.name_en, c.name_kr, c.desc_en, c.desc_kr, img, shareout from daily as d inner join company_info as c on d.symbol = c.symbol where c.symbol = ? and change_percent is not null order by d.date desc limit 1;`;
     db.query(sql, symbol, function (err, rows, fields) {
       res.json(rows);
     });
