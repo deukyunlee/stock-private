@@ -27,17 +27,17 @@ console.log(moment().format("YYYY-MM-DD HH:mm:ss"));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-const options = {
-  key: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/private.key"
-  ),
-  cert: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/certificate.crt"
-  ),
-  ca: fs.readFileSync(
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/ca_bundle.crt"
-  ),
-};
+// const options = {
+//   key: fs.readFileSync(
+//     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/private.key"
+//   ),
+//   cert: fs.readFileSync(
+//     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/certificate.crt"
+//   ),
+//   ca: fs.readFileSync(
+//     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/ca_bundle.crt"
+//   ),
+// };
 
 const swaggerSpec = swaggerJSDoc({
   swaggerDefinition: {
@@ -138,6 +138,26 @@ cron.schedule("0 0 10 * * *", async function () {
 
 cron.schedule("0 0 21 * * *", async function () {
   insertController.insert_intraday_data();
+});
+
+const recentDateSql = `select date from daily where symbol = "a" order by date desc limit 1`;
+// const recentDateSql = `select * from daily where date = "2022-08-08";`;
+db.query(recentDateSql, (err, result) => {
+  if (err) console.log(err);
+
+  var queryDate = result[0].date;
+  const year = queryDate.getFullYear();
+  const month = queryDate.getMonth();
+  const date = queryDate.getDate();
+  const initialDate = year + "-" + (month + 1) + "-" + date;
+  console.log(initialDate);
+
+  const remainSql = `select symbol from company_info where updatedAt_daily < ?`;
+  db.query(remainSql, initialDate, (err, result) => {
+    if (result.length) {
+      insertController.insert_daily_data();
+    }
+  });
 });
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
