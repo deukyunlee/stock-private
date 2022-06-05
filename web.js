@@ -68,36 +68,36 @@ const swaggerSpec = swaggerJSDoc({
   // ],
 });
 
-// const db = mysql.createConnection({
-//   host: "stockking.cafe24app.com",
-//   user: "dufqkd1004",
-//   password: "capstone!!",
-//   database: "dufqkd1004",
-//   port: "3306",
-//   multipleStatements: true,
-//   typeCast: function (field, next) {
-//     if (field.type == "VAR_STRING") {
-//       return field.string();
-//     }
-//     return next();
-//   },
-//   multipleStatements: true,
-//   // dateStrings: "date",
-//   //socketPath: socket_path,
-// });
-// app.use("/", function (req, res, next) {
-//   res.send("this");
-// });
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "111111",
-  database: "capstone",
+  host: "stockking.cafe24app.com",
+  user: "dufqkd1004",
+  password: "capstone!!",
+  database: "dufqkd1004",
   port: "3306",
+  multipleStatements: true,
+  typeCast: function (field, next) {
+    if (field.type == "VAR_STRING") {
+      return field.string();
+    }
+    return next();
+  },
   multipleStatements: true,
   // dateStrings: "date",
   //socketPath: socket_path,
 });
+app.use("/", function (req, res, next) {
+  res.send("this");
+});
+// const db = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "111111",
+//   database: "capstone",
+//   port: "3306",
+//   multipleStatements: true,
+//   // dateStrings: "date",
+//   //socketPath: socket_path,
+// });
 
 module.exports = db;
 
