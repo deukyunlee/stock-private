@@ -38,7 +38,7 @@ app.set("view engine", "ejs");
 //     "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/certificates/ca_bundle.crt"
 //   ),
 // };
-
+console.log("test");
 const swaggerSpec = swaggerJSDoc({
   swaggerDefinition: {
     openapi: "3.0.2",
