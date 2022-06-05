@@ -181,6 +181,7 @@ module.exports.insert_daily_data = async function getDaily() {
 
                       let value = rows[i].value;
                       let percent = rows[i].percent;
+                      // console.log(value);
                       sql = `update daily set change_percent = '${percent}', change_value = ${value} where symbol = ? and date = '${date}'`;
                       db.query(sql, symbol, function (err, rows, fields) {
                         if (err) console.log(err);

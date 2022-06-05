@@ -13,13 +13,13 @@ const db = mysql.createConnection({
 });
 var open = new Array();
 var close = new Array();
-const sql = `select close from daily where symbol = "tsla" limit 1000`;
+const sql = `select close from daily where symbol = "tsla" limit 500 offset 500`;
 db.query(sql, async (err, result) => {
   Object.keys(result).forEach(async function (key) {
     open.push(result[key].close);
   });
   console.log(open);
-  const sql2 = `select close from daily where symbol = "tsla" limit 1000 offset 1001`;
+  const sql2 = `select close from daily where symbol = "tsla" limit 500 offset 1000`;
   db.query(sql2, async (err, result) => {
     Object.keys(result).forEach(async function (key) {
       close.push(result[key].close);
@@ -40,7 +40,7 @@ db.query(sql, async (err, result) => {
     // 3. 데이터로 모델을 학습시킵니다.
     // var fitParam = { epochs: 1000000 };
     var fitParam = {
-      epochs: 5000,
+      epochs: 500,
       callbacks: {
         onEpochEnd: function (epoch, logs) {
           console.log("epoch", epoch, logs);
@@ -52,12 +52,17 @@ db.query(sql, async (err, result) => {
       // 4.1 기존의 데이터를 이용
       var 예측한결과 = model.predict(input);
       var 다음주온도 = [
-        846.35, 829.1, 937.41, 918.4, 930, 943.9, 996.27, 995.65, 1030.51,
-        1049.61,
+        1136.99, 1081.92, 1116, 1109.03, 1156.87, 1137.06, 1096.38, 1089.01,
+        1054.73, 1013.39, 1033.42, 1063.51, 1067.95, 1023.5, 1162.94, 1222.09,
+        1229.91, 1213.86, 1172, 1208.59, 1114, 1077.04, 1037.86, 1018.43,
+        1024.86, 909.68, 894, 865.8, 864.27, 870.11,
       ];
       var 다음주원인 = tf.tensor(다음주온도);
       var 다음주결과 = model.predict(다음주원인);
-      다음주결과.print();
+      // 다음주결과.print();
+      var test = new Array();
+      test = 다음주결과;
+      console.log(test.values);
       //   예측한결과.print();
     });
   });

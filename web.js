@@ -113,6 +113,8 @@ const login = require("./src/routes/loginRouter");
 // specifying path of routers
 
 const favorite = require("./src/routes/favoriteRouter");
+const { symbol } = require("joi");
+const { BADQUERY } = require("dns");
 
 app.use("/stock", stock_get);
 app.use("/cap", cap_get);
@@ -160,6 +162,214 @@ db.query(recentDateSql, (err, result) => {
     }
   });
 });
+
+// const sqlForLag = `select symbol, date, (select date from daily where symbol = a.symbol and date < a.date order by date desc limit 1)lag from daily as a where a.symbol = "aapl" and a.date> "2022-05-05" group by a.symbol, a.date;`;
+// const leadDate = new Array();
+// const lagDate = new Array();
+// const symbolArr = new Array();
+// const lagArr = new Array();
+// const lagCloseArr = new Array();
+// const leadArr = new Array();
+// const leadCloseArr = new Array();
+// db.query(sqlForLag, async (err, result) => {
+//   await Object.keys(result).forEach(async function (key) {
+//     const queryDate = result[key].date;
+//     // console.log(result[key].date);
+//     const year = queryDate.getFullYear();
+//     const month = queryDate.getMonth();
+//     const date = queryDate.getDate();
+
+//     const initialDate = year + "-" + (month + 1) + "-" + date;
+//     console.log(initialDate);
+//     leadDate.push(initialDate);
+//     const queryDate2 = result[key].lag;
+//     // console.log(result[key].date);
+//     const year2 = queryDate2.getFullYear();
+//     const month2 = queryDate2.getMonth();
+//     const date2 = queryDate2.getDate();
+
+//     const initialDate2 = year2 + "-" + (month2 + 1) + "-" + date2;
+//     console.log(initialDate2);
+//     lagDate.push(initialDate2);
+//   });
+//   // await console.log(leadDate[1] + "this!");
+//   await Object.keys(result).forEach(async function (key) {
+//     const sqlThis = `select date, symbol, close from daily where date = "${leadDate[key]}"`;
+//     db.query(sqlThis, (err, result) => {
+//       // console.log(result[key].date);
+//       // console.log(result[key].symbol);
+//       // console.log(result[key].close);
+//       symbolArr.push(result[key].symbol);
+//       lagArr.push(result[key].date);
+//       lagCloseArr.push(result[key].close);
+//     });
+//   });
+//   await console.log(lagArr);
+//   await Object.keys(result).forEach(async function (key) {
+//     const sqlThis = `select date, symbol, close from daily where date = "${lagDate[key]}"`;
+//     db.query(sqlThis, (err, result) => {
+//       // console.log(result[key].date);
+//       // console.log(result[key].symbol);
+//       // console.log(result[key].close);
+//     });
+//   });
+// });
+
+async function test() {
+  const valueArr = new Array();
+  const percentArr = new Array();
+  const dateArr = new Array();
+  const symbolArr2 = new Array();
+  const sql = `select date, symbol,Round(close-(select close from daily where symbol = a.symbol and date<a.date order by date desc limit 1),2) as change_value,Round((close-(select close from daily where symbol = a.symbol and date < a.date order by date desc limit 1))/(select close from daily where symbol = a.symbol and date < a.date order by date desc limit 1)*100,2) as change_percent, close  from daily a where a.date >"2022-05-05" group by a.symbol, a.date;`;
+  db.query(sql, async (err, result) => {
+    await Object.keys(result).forEach(async function (i) {
+      symbolArr2.push(result[i].symbol);
+      //dateArr.push(result[i].date);
+      valueArr.push(resul111t[i].change_value);
+      percentArr.push(result[i].change_percent);
+
+      var queryDate = result[i].date;
+      const year = queryDate.getFullYear();
+      const month = queryDate.getMonth();
+      const date = queryDate.getDate();
+
+      const initialDate = year + "-" + (month + 1) + "-" + date;
+      dateArr.push(initialDate);
+      //percentArr[i] = initialDate;
+    });
+    // console.log(dateArr);
+    // console.log(symbolArr2);
+    // console.log(valueArr);
+    // console.log(percentArr);
+
+    await Object.keys(result).forEach(async function (i) {
+      const sql2 = `update daily set change_percent = ${percentArr[i]}, change_value= ${valueArr[i]} where symbol = ? and date = "${dateArr[i]}"`;
+      console.log(percentArr[i]);
+      console.log(symbolArr2[i]);
+      //console.log(dateArr[i]);
+
+      db.query(sql2, symbolArr2[i], (err, result) => {
+        if (err) console.log(err);
+        //console.log(result);
+        console.log(result);
+      });
+    });
+  });
+}
+//test();
+
+//update daily set change_percent = d.change_percent, change_value= d.lagClose from (select symbol,date,Round(close-(select close from daily where symbol = a.symbol and date < a.date order by date desc limit 1),2) as lagClose, Round((close-(select close from daily where symbol = a.symbol and date < a.date order by date desc limit 1)/(select close from daily where symbol = a.symbol and date < a.date order by date desc limit 1)*100),2) as change_percent from daily as a where a.symbol = "aapl" and a.date> "2022-05-05" group by a.symbol, a.date) as d where daily.symbol = d. symbol;
+//update daily a set (change_value,change_percent) = (select Round(close-(select close from daily where symbol = a.symbol and date < a.date order by date desc limit 1),2) as change_value, Round((close-(select close from daily where symbol = a.symbol and date < a.date order by date desc limit 1)/(select close from daily where symbol = a.symbol and date < a.date order by date desc limit 1)*100),2) as change_percent from daily as b where a.symbol = "aapl" and a.date> "2022-05-05"  and a.date = b.date group by a.symbol, a.date);
+// async function test() {
+//   var symbol2 = new Array();
+//   var close1 = new Array();
+//   var close2 = new Array();
+
+//   const everySql = "select symbol from company_info";
+//   await db.query(everySql, (err, result) => {
+//     // console.log(rows[0].symbol);
+
+//     Object.keys(result).forEach(async function (key) {
+//       const symbolSelect = result[key].symbol;
+//       symbol2.push(result[key].symbol);
+//       const sql1 = `select date from daily where symbol = ? order by date desc limit 1`;
+//       db.query(sql1, symbolSelect, (err, row) => {
+//         var queryDate = row[0].date;
+//         const year = queryDate.getFullYear();
+//         const month = queryDate.getMonth();
+//         const date = queryDate.getDate();
+
+//         const initialDate = year + "-" + (month + 1) + "-" + date;
+//         // console.log(initialDate);
+
+//         const sqlPrevious = `select close from daily where date = ? and symbol = "${symbolSelect}"`;
+//         db.query(sqlPrevious, initialDate, (err, row) => {
+//           for (var i in row) {
+//             // const close = row[i].close;
+//             close1.push(row[i].close);
+//             // console.log(initialDate);
+//             // console.log("1" + ":" + close);
+
+//             const sql1 = `select date from daily where symbol = ? order by date desc limit 1 offset 1`;
+//             db.query(sql1, symbolSelect, (err, row) => {
+//               var queryDate = row[0].date;
+//               const year = queryDate.getFullYear();
+//               const month = queryDate.getMonth();
+//               const date = queryDate.getDate();
+
+//               const initialDate = year + "-" + (month + 1) + "-" + date;
+//               // console.log(initialDate);
+
+//               const sqlPrevious = `select close from daily where date = ? and symbol = "${symbolSelect}"`;
+//               db.query(sqlPrevious, initialDate, (err, row) => {
+//                 Object.keys(row).forEach(async function (key) {
+//                   // const close2 = row[key].close;
+//                   close2.push(row[key].close);
+//                   console.log(close1[key]);
+//                   // console.log(initialDate);
+//                   // console.log("2" + ":" + close2);
+//                   // console.log(close + close2);
+
+//                   const sqlNow = `select date, (${close1[key]} - ${close2[key]}) as value, ((${close1[key]} - ${close2[key]} / ${close2[key]}) *100) as percent from daily`;
+//                   db.query(sqlNow, (err, row) => {
+//                     console.log(row);
+//                     // if (err) console.log(err);
+//                     // Object.keys(row).forEach(async function (key) {
+//                     //   let date = row[key].date;
+//                     //   const date_year = date.getFullYear();
+//                     //   const date_month = date.getMonth();
+//                     //   const date_date = date.getDate();
+//                     //   date = date_year + "-" + (date_month + 1) + "-" + date_date;
+//                     //   let value = row[key].value;
+//                     //   let percent = row[key].percent;
+//                     //   console.log(value);
+//                     //   sql = `update daily set change_percent = '${percent}', change_value = ${value} where symbol = ? and date = '${date}'`;
+//                     //   db.query(sql, symbolSelect, function (err, rows, fields) {
+//                     //     if (err) console.log(err);
+//                     //   });
+//                     // });
+//                   });
+//                 });
+//               });
+//             });
+//           }
+//           // const sql2 = `select symbol,date from daily where symbol = ? order by date desc limit 1 offset 1`;
+//           // db.query(sql2, symbolSelect, (err, row) => {
+//           //   if (err) console.log(err);
+//           //   var queryDate = row[0].date;
+//           //   const year = queryDate.getFullYear();
+//           //   const month = queryDate.getMonth();
+//           //   const date = queryDate.getDate();
+//           //   const initialDate = year + "-" + (month + 1) + "-" + date;
+//           //   console.log(row[0].symbol);
+//           //   console.log(initialDate);
+//           // });
+//         });
+//       });
+//       // console.log(result[key].symbol);
+//       // let sql3 = `select date, (close - lag(close, 1) over (order by date)) as value, ((close - lag(close, 1) over (order by date))/ lag(close, 1) over (order by date)*100) as percent from daily where symbol = ?;`;
+//       // db.query(sql3, result[key].symbol, function (err, rows, fields) {
+//       //   for (var i in rows) {
+//       //     let date = rows[i].date;
+//       //     const date_year = date.getFullYear();
+//       //     const date_month = date.getMonth();
+//       //     const date_date = date.getDate();
+//       //     date = date_year + "-" + (date_month + 1) + "-" + date_date;
+//       //     let value = rows[i].value;
+//       //     let percent = rows[i].percent;
+//       //     console.log(value);
+//       //     sql = `update daily set change_percent = '${percent}', change_value = ${value} where symbol = ? and date = '${date}'`;
+//       //     db.query(sql, symbol, function (err, rows, fields) {
+//       //       if (err) console.log(err);
+//       //     });
+//       //   }
+//       // });
+//     });
+//   });
+
+//   // await console.log(close1);
+// }
+// test();
 
 // const recentDatetimeSql = `select date(datetime) as date from intraday where symbol = "a" order by date(datetime) desc limit 1`;
 // // const recentDateSql = `select * from daily where date = "2022-08-08";`;
