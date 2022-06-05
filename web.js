@@ -56,42 +56,42 @@ const swaggerSpec = swaggerJSDoc({
       },
     ],
   },
-  // apis: ["./api-doc/**/*.yaml"],
-  apis: [
-    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/api-doc/**/*.yaml",
-  ],
+  apis: ["./api-doc/**/*.yaml"],
+  // apis: [
+  //   "/home/hosting_users/dufqkd1004/apps/dufqkd1004_teststock/api-doc/**/*.yaml",
+  // ],
 });
 
-const db = mysql.createConnection({
-  host: "teststock.cafe24app.com",
-  user: "dufqkd1004",
-  password: "capstone!!",
-  database: "dufqkd1004",
-  port: "3306",
-  multipleStatements: true,
-  typeCast: function (field, next) {
-    if (field.type == "VAR_STRING") {
-      return field.string();
-    }
-    return next();
-  },
-  multipleStatements: true,
-  // dateStrings: "date",
-  //socketPath: socket_path,
-});
-// app.use("/", function (req, res, next) {
-//   res.send("this");
-// });
 // const db = mysql.createConnection({
-//   host: "localhost",
-//   user: "root",
-//   password: "111111",
-//   database: "capstone",
+//   host: "stockking.cafe24app.com",
+//   user: "dufqkd1004",
+//   password: "capstone!!",
+//   database: "dufqkd1004",
 //   port: "3306",
+//   multipleStatements: true,
+//   typeCast: function (field, next) {
+//     if (field.type == "VAR_STRING") {
+//       return field.string();
+//     }
+//     return next();
+//   },
 //   multipleStatements: true,
 //   // dateStrings: "date",
 //   //socketPath: socket_path,
 // });
+// app.use("/", function (req, res, next) {
+//   res.send("this");
+// });
+const db = mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "111111",
+  database: "capstone",
+  port: "3306",
+  multipleStatements: true,
+  // dateStrings: "date",
+  //socketPath: socket_path,
+});
 
 module.exports = db;
 
@@ -134,13 +134,13 @@ app.use("/favorite", favorite);
 //   });
 // };
 // update_daily();
-cron.schedule("0 0 10 * * *", async function () {
-  insertController.insert_daily_data();
-});
+// cron.schedule("0 0 10 * * *", async function () {
+//   insertController.insert_daily_data();
+// });
 
-cron.schedule("0 0 21 * * *", async function () {
-  insertController.insert_intraday_data();
-});
+// cron.schedule("0 0 21 * * *", async function () {
+//   insertController.insert_intraday_data();
+// });
 
 // const recentDateSql = `select date from daily where symbol = "a" order by date desc limit 1`;
 // // const recentDateSql = `select * from daily where date = "2022-08-08";`;
