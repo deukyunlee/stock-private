@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@tensorflow/tfjs": "^3.18.0",
+    "@tensorflow/tfjs-node": "^3.18.0",
     "algoliasearch": "^4.13.0",
     "apple-auth": "^1.0.7",
     "axios": "^0.26.1",
