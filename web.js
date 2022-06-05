@@ -59,7 +59,7 @@ const swaggerSpec = swaggerJSDoc({
 
   // apis: ["./api-doc/**/*.yaml"],
   apis: [
-    "/home/hosting_users/dufqkd1004/apps/stockking.cafe24app.com/api-doc/**/*.yaml",
+    "/home/hosting_users/dufqkd1004/apps/dufqkd1004_stockking/api-doc/**/*.yaml",
   ],
 
   // apis: ["./api-doc/**/*.yaml"],
