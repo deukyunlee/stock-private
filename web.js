@@ -44,7 +44,7 @@ const swaggerSpec = swaggerJSDoc({
     openapi: "3.0.2",
     info: {
       title: "stockKing API 명세",
-      version: "1.0",
+      version: "1.2",
     },
     // host: "http://teststock.cafe24app.com",
     // basePath: "/",
