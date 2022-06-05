@@ -52,13 +52,15 @@ const swaggerSpec = swaggerJSDoc({
       {
         // url: "http://localhost:8001",
         // url: "http://teststock.cafe24app.com",
-        url: "http://www.stock-king.shop",
+        url: "http://stockking.cafe24app.com",
       },
     ],
   },
 
   // apis: ["./api-doc/**/*.yaml"],
-  apis: ["/home/hosting_users/dufqkd1004/apps/stock-king/api-doc/**/*.yaml"],
+  apis: [
+    "/home/hosting_users/dufqkd1004/apps/stockking.cafe24app.com/api-doc/**/*.yaml",
+  ],
 
   // apis: ["./api-doc/**/*.yaml"],
   // apis: [
