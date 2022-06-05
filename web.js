@@ -409,7 +409,7 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-app.listen(process.env.PORT || 8001);
+app.listen(process.env.PORT || 8002);
 // const httpsServer = https.createServer(options, app);
 // httpsServer.listen(443, "stock-king.co.kr");
 // httpsServer.listen(443, "stock-king.co.kr");
