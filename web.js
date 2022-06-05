@@ -225,7 +225,7 @@ async function test() {
     await Object.keys(result).forEach(async function (i) {
       symbolArr2.push(result[i].symbol);
       //dateArr.push(result[i].date);
-      valueArr.push(resul111t[i].change_value);
+      valueArr.push(result[i].change_value);
       percentArr.push(result[i].change_percent);
 
       var queryDate = result[i].date;
