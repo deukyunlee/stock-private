@@ -43,7 +43,7 @@ const swaggerSpec = swaggerJSDoc({
   swaggerDefinition: {
     openapi: "3.0.2",
     info: {
-      title: "stockKing API 명세",
+      title: "stockKING API 명세",
       version: "1.2",
     },
     // host: "http://teststock.cafe24app.com",
