@@ -1,8 +1,7 @@
 {
-  "client_id": "com.wwww.stockKing",
+  "client_id": "joon.ProtoType",
   "team_id": "SVTPX8LD4Q",
-  "key_id": "3229BWMH7R",
-  "redirect_uri": "https://stock-king.shop/login/google/callback",
-  "scope" : "name",
-  "private_key_path": "AuthKey_AB12CD123E.p8"
+  "key_id": "6925SRZ8A4",
+  "redirect_uri": "https://stock-king.shop/login/apple/callback",
+  "private_key_path": "AuthKey_6925SRZ8A4.p8"
 }
