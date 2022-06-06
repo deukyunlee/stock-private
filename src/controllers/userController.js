@@ -11,8 +11,9 @@ const AppleAuth = require("apple-auth");
 const appleConfig = require("../../config/appleConfig");
 const auth = new AppleAuth(
   appleConfig,
-  path.join(__dirname, "../../config/AuthKey_3229BWMH7R.p8")
+  path.join(__dirname, "../../config/AuthKey_6925SRZ8A4.p8")
 );
+
 
 const google_url = "https://oauth2.googleapis.com/tokeninfo";
 const kakao_url = "https://kapi.kakao.com/v2/user/me";
