@@ -1,32 +1,32 @@
 // const db = require("../../web.js");
 const mysql = require("mysql");
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "111111",
-  database: "capstone",
-  port: "3306",
-  multipleStatements: true,
-  // dateStrings: "date",
-  //socketPath: socket_path,
-});
 // const db = mysql.createConnection({
-//   host: "teststock.cafe24app.com",
-//   user: "dufqkd1004",
-//   password: "capstone!!",
-//   database: "dufqkd1004",
+//   host: "localhost",
+//   user: "root",
+//   password: "111111",
+//   database: "capstone",
 //   port: "3306",
-//   multipleStatements: true,
-//   typeCast: function (field, next) {
-//     if (field.type == "VAR_STRING") {
-//       return field.string();
-//     }
-//     return next();
-//   },
 //   multipleStatements: true,
 //   // dateStrings: "date",
 //   //socketPath: socket_path,
 // });
+const db = mysql.createConnection({
+  host: "stockking.cafe24app.com",
+  user: "dufqkd1004",
+  password: "capstone!!",
+  database: "dufqkd1004",
+  port: "3306",
+  multipleStatements: true,
+  typeCast: function (field, next) {
+    if (field.type == "VAR_STRING") {
+      return field.string();
+    }
+    return next();
+  },
+  multipleStatements: true,
+  // dateStrings: "date",
+  //socketPath: socket_path,
+});
 const axios = require("axios");
 const delayFunc = require("../funcs/delayFuncs");
 const API_KEY = "ZO8S591P8HTYI8LV";
@@ -98,7 +98,7 @@ module.exports.insert_daily_data = async function getDaily() {
 
         sql = `UPDATE company_info SET updatedAt_daily = ? where symbol = "a";`;
         db.query(sql, max, function (err, rows, fields) {
-          sql = `SELECT symbol from company_info where updatedAt_daily<'${max}' OR updatedAt_daily IS null`;
+          sql = `SELECT symbol from company_info where date(updatedAt_daily<'${max}') OR updatedAt_daily IS null`;
           db.query(sql, async function (err, rows, fields) {
             if (err) console.log(err);
             for (var i in rows) {
@@ -138,7 +138,7 @@ module.exports.insert_daily_data = async function getDaily() {
               if (content) {
                 const keys = Object.keys(content);
 
-                let sql = `insert IGNORE into daily(symbol, date, open, high,low,close,volume) values (?)`;
+                let sql = `insert IGNORE into daily(symbol, date, open, high,low,close,volume, cap) values (?)`;
 
                 console.log(
                   `${symbol} inserted into database : ${count} symbols left`
@@ -147,9 +147,8 @@ module.exports.insert_daily_data = async function getDaily() {
                 // let sharArr = new Array();
                 // db.query(sqlShareout, (err, rows, fields) => {
                 //   sharArr = rows;
-                //   console.log(sharArr);
                 // });
-                //console.log(sharArr);
+                // console.log(sharArr);
                 keys.forEach(function (key, index) {
                   const row = content[key];
                   const date = keys[index];
@@ -158,7 +157,7 @@ module.exports.insert_daily_data = async function getDaily() {
                   const low = parseFloat(row["3. low"]);
                   const close = parseFloat(row["4. close"]);
                   const volume = parseInt(row["5. volume"]);
-                  // const cap = close * shareout;
+                  const cap = close * shareout;
                   const array = [
                     symbol,
                     date,
@@ -167,7 +166,7 @@ module.exports.insert_daily_data = async function getDaily() {
                     low,
                     close,
                     volume,
-                    // cap,
+                    cap,
                   ];
                   db.query(sql, [array], function (err, rows, fields) {
                     // const sql = `update daily set cap = shareout * close where symbol = ${symbol} and date = ${date}`;
@@ -178,28 +177,28 @@ module.exports.insert_daily_data = async function getDaily() {
                 });
 
                 let sql2 = `UPDATE company_info SET updatedAt_daily='${max}' where symbol = "${symbol}"`;
-                // db.query(sql2, function (err, rows, fields) {
-                //   if (err) console.log(err);
-                //   let sql3 = `select date, (close - lag(close, 1) over (order by date)) as value, ((close - lag(close, 1) over (order by date))/ lag(close, 1) over (order by date)*100) as percent from daily where symbol = ?;`;
-                //   db.query(sql3, symbol, function (err, rows, fields) {
-                //     for (var i in rows) {
-                //       let date = rows[i].date;
-                //       const date_year = date.getFullYear();
-                //       const date_month = date.getMonth();
-                //       const date_date = date.getDate();
-                //       date =
-                //         date_year + "-" + (date_month + 1) + "-" + date_date;
+                db.query(sql2, function (err, rows, fields) {
+                  if (err) console.log(err);
+                  let sql3 = `select date, (close - lag(close, 1) over (order by date)) as value, ((close - lag(close, 1) over (order by date))/ lag(close, 1) over (order by date)*100) as percent from daily where symbol = ?;`;
+                  db.query(sql3, symbol, function (err, rows, fields) {
+                    for (var i in rows) {
+                      let date = rows[i].date;
+                      const date_year = date.getFullYear();
+                      const date_month = date.getMonth();
+                      const date_date = date.getDate();
+                      date =
+                        date_year + "-" + (date_month + 1) + "-" + date_date;
 
-                //       let value = rows[i].value;
-                //       let percent = rows[i].percent;
-                //       // console.log(value);
-                //       sql = `update daily set change_percent = '${percent}', change_value = ${value} where symbol = ? and date = '${date}'`;
-                //       db.query(sql, symbol, function (err, rows, fields) {
-                //         if (err) console.log(err);
-                //       });
-                //     }
-                //   });
-                // });
+                      let value = rows[i].value;
+                      let percent = rows[i].percent;
+                      // console.log(value);
+                      sql = `update daily set change_percent = '${percent}', change_value = ${value} where symbol = ? and date = '${date}'`;
+                      db.query(sql, symbol, function (err, rows, fields) {
+                        if (err) console.log(err);
+                      });
+                    }
+                  });
+                });
               }
             }
           });

@@ -141,7 +141,7 @@ app.use("/favorite", favorite);
 // };
 // update_daily();
 // cron.schedule("0 0 10 * * *", async function () {
-//   insertController.insert_daily_data();
+//insertController.insert_daily_data();
 // });
 
 // cron.schedule("0 0 21 * * *", async function () {
