@@ -18,6 +18,7 @@ router.get("/auto-login", account.verifyToken, Usercontroller.autoLogin);
 // url => '/login/${social_name}'
 router.post("/kakao", Usercontroller.kakaologin);
 router.post("/google", Usercontroller.googlelogin);
+router.post("/apple", Usercontroller.applelogin);
 router.post("/apple/callback", Usercontroller.appleloginCallback);
 
 module.exports = router;
